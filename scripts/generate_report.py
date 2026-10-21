@@ -452,15 +452,15 @@ def main() -> None:
     data["environment"] = environment
     reports = ROOT / "reports"
     reports.mkdir(exist_ok=True)
-    (reports / "experiments.json").write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (reports / "experiments.json").write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     peers_full = {f"{a}-{b}": simulate_peers(0x2D55, list(range(256)), a, b) for a, b in (("A", "B"), ("A", "C"), ("B", "C"))}
     simulation = {"environment": environment, "notice": "个人多实现模拟；没有其他小组参与，不是真人互测。",
                   "group": simulate_group(0x2D55, list(range(256))), "peers": peers_full}
-    (reports / "personal-simulation.json").write_text(json.dumps(simulation, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (reports / "personal-simulation.json").write_text(json.dumps(simulation, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     ui_path = reports / "ui-checks.json"
     ui = json.loads(ui_path.read_text(encoding="utf-8")) if ui_path.exists() else None
-    (ROOT / "docs" / "test-report.md").write_text(render_test_report(data, ui, environment), encoding="utf-8")
-    (ROOT / "docs" / "personal-simulation-report.md").write_text(render_simulation_report(data, environment), encoding="utf-8")
+    (ROOT / "docs" / "test-report.md").write_text(render_test_report(data, ui, environment), encoding="utf-8", newline="\n")
+    (ROOT / "docs" / "personal-simulation-report.md").write_text(render_simulation_report(data, environment), encoding="utf-8", newline="\n")
     print(f"已生成 reports/experiments.json、reports/personal-simulation.json、docs/test-report.md（用时 {time.perf_counter() - started:.0f} 秒）")
 
 
