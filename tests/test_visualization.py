@@ -58,8 +58,24 @@ class StructureTests(unittest.TestCase):
         self.assertEqual(self.decrypt["result"], PLAINTEXT)
 
     def test_round_trip_check_runs_the_opposite_operation(self):
-        self.assertEqual(self.encrypt["roundtrip"], {"operation": "decrypt", "input": CIPHERTEXT, "result": PLAINTEXT, "matches": True})
-        self.assertEqual(self.decrypt["roundtrip"], {"operation": "encrypt", "input": PLAINTEXT, "result": CIPHERTEXT, "matches": True})
+        cases = ((self.encrypt, "decrypt", CIPHERTEXT, PLAINTEXT), (self.decrypt, "encrypt", PLAINTEXT, CIPHERTEXT))
+        for trace, operation, start, end in cases:
+            check = trace["roundtrip"]
+            self.assertEqual((check["operation"], check["input"], check["result"], check["matches"]), (operation, start, end, True))
+            self.assertEqual((len(check["states"]), check["states"][0], check["states"][-1]), (9, start, end))
+
+    def test_outline_describes_both_directions_for_the_overview_figure(self):
+        for trace in (self.encrypt, self.decrypt):
+            outline = trace["outline"]
+            self.assertEqual([item["kind"] for item in outline["encrypt"]],
+                             ["add_key", "substitute", "shift_rows", "mix_columns", "add_key", "substitute", "shift_rows", "add_key"])
+            self.assertEqual([item["label"] for item in outline["decrypt"]],
+                             ["A_K2", "ISR", "INS", "A_K1", "IMC", "ISR", "INS", "A_K0"])
+            self.assertEqual([item["key_name"] for item in outline["encrypt"] if item["key_name"]], ["K0", "K1", "K2"])
+        live = [step for step in self.decrypt["steps"] if step["phase"] == "cipher"]
+        for step, item in zip(live, self.decrypt["outline"]["decrypt"]):
+            self.assertEqual((step["label"], step["group"], step["name"], step["round"]),
+                             (item["label"], item["group"], item["name"], item["round"]))
 
     def test_round_keys_are_used_in_the_right_order(self):
         keys = [step["key_name"] for step in self.encrypt["steps"] if step.get("kind") == "add_key"]

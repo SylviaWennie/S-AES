@@ -22,6 +22,7 @@ STATIC_FILES = {"/": ("index.html", "text/html; charset=utf-8"), "/style.css": (
                 "/visuals.css": ("visuals.css", "text/css; charset=utf-8"),
                 "/common.js": ("common.js", "text/javascript; charset=utf-8"),
                 "/visuals.js": ("visuals.js", "text/javascript; charset=utf-8"),
+                "/figures.js": ("figures.js", "text/javascript; charset=utf-8"),
                 "/charts.js": ("charts.js", "text/javascript; charset=utf-8"),
                 "/app.js": ("app.js", "text/javascript; charset=utf-8")}
 
@@ -223,7 +224,10 @@ def handle_cbc(payload: dict) -> dict:
                  "plain_view": modes.printable_view(plain.to_bytes(2, "big"))}
                 for index, (plain, encrypted) in enumerate(zip(plain_blocks, cipher_blocks))]
         cipher_bytes = modes.blocks_to_bytes(cipher_blocks)
+        ecb_blocks = modes.ecb_encrypt(data, key, padding, cipher)  # 对比：同一明文用 ECB 时重复的明文分组会泄露
         return {"operation": "encrypt", "iv": describe(iv), "rows": rows, "block_count": len(rows),
+                "ecb_repeated_blocks": len(ecb_blocks) - len(set(ecb_blocks)),
+                "cbc_repeated_blocks": len(cipher_blocks) - len(set(cipher_blocks)),
                 "cipher_hex": cipher_bytes.hex().upper(), "cipher_base64": base64.b64encode(cipher_bytes).decode("ascii"),
                 "package_hex": (iv.to_bytes(2, "big") + cipher_bytes).hex().upper()}
     if payload.get("operation") == "decrypt":

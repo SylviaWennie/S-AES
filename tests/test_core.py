@@ -139,6 +139,14 @@ class BlockCipherTests(unittest.TestCase):
         self.assertEqual(core.decrypt_block(KNOWN_CIPHERTEXT, KNOWN_KEY), KNOWN_PLAINTEXT)
         self.assertEqual([format(key, "04X") for key in core.round_keys(KNOWN_KEY)], ["A73B", "1C27", "7651"])
 
+    def test_textbook_worked_examples_are_one_encryption_run(self):
+        # D.2.1–D.2.4 的四个示例恰好是 P = A749、K = 2D55 这次加密的前四步：A_K0、NS、SR、MC
+        plaintext = textbook.matrix_to_state(textbook.ADD_ROUND_KEY_EXAMPLE[0])
+        expected = [textbook.matrix_to_state(textbook.ADD_ROUND_KEY_EXAMPLE[2]), textbook.matrix_to_state(textbook.SUBSTITUTION_EXAMPLE[1]),
+                    textbook.matrix_to_state(textbook.SHIFT_ROWS_EXAMPLE[1]), textbook.matrix_to_state(textbook.MIX_COLUMNS_EXAMPLE[1])]
+        self.assertEqual((plaintext, textbook.KEY_EXPANSION_KEY), (0xA749, 0x2D55))
+        self.assertEqual(core.trace_block(plaintext, textbook.KEY_EXPANSION_KEY)["states"][1:5], expected)
+
     def test_decryption_trace_mirrors_encryption(self):
         encrypt = core.trace_block(KNOWN_PLAINTEXT, KNOWN_KEY)["states"]
         decrypt = core.trace_block(KNOWN_CIPHERTEXT, KNOWN_KEY, decrypt=True)["states"]

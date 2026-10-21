@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>S-AES · 信息安全实验台</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23182d41'/%3E%3Ctext x='16' y='23' font-size='20' font-family='Segoe UI,Arial' font-weight='700' text-anchor='middle' fill='white'%3ES%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/visuals.css">
+  <script src="/common.js" defer></script>
+  <script src="/visuals.js" defer></script>
+  <script src="/figures.js" defer></script>
+  <script src="/charts.js" defer></script>
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/"><span class="brand-icon">S</span> S-AES <span class="brand-caption">信息安全实验台</span></a>
+    <span class="local-badge"><i></i> 本地运行 · 数据不上传</span>
+  </header>
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">INTRODUCTION TO INFORMATION SECURITY</p>
+        <h1>跟着半字节，走完简化 AES。</h1>
+        <p class="intro">按教材附录 D 实现 S-AES，并复刻图 D.1–D.5 的分步图解。沿五道关卡完成加解密、交叉测试、字符串、多重加密与 CBC；一个人也能完成组内与组间互测。</p>
+      </div>
+      <div class="spec-card"><span>算法参数</span><strong>16 <small>bit 分组</small><b>/</b> 16 <small>bit 密钥</small></strong><p>两轮 · 3 个轮密钥 · 65,536 个可能密钥</p></div>
+    </section>
+
+    <nav class="tabs" role="tablist" aria-label="实验关卡">
+      <button role="tab" id="tab-basic" aria-controls="panel-basic" aria-selected="true" data-tab="basic"><span>01</span> 基本测试<i class="pass-mark" hidden>✓</i></button>
+      <button role="tab" id="tab-cross" aria-controls="panel-cross" aria-selected="false" data-tab="cross"><span>02</span> 交叉测试<i class="pass-mark" hidden>✓</i></button>
+      <button role="tab" id="tab-ascii" aria-controls="panel-ascii" aria-selected="false" data-tab="ascii"><span>03</span> 扩展功能<i class="pass-mark" hidden>✓</i></button>
+      <button role="tab" id="tab-multiple" aria-controls="panel-multiple" aria-selected="false" data-tab="multiple"><span>04</span> 多重加密<i class="pass-mark" hidden>✓</i></button>
+      <button role="tab" id="tab-cbc" aria-controls="panel-cbc" aria-selected="false" data-tab="cbc"><span>05</span> 工作模式<i class="pass-mark" hidden>✓</i></button>
+      <button role="tab" id="tab-all" aria-controls="panel-all" aria-selected="false" data-tab="all"><span>★</span> 一键闯关</button>
+    </nav>
+    <div id="notice" class="notice" role="alert" hidden></div>
+
+    <!-- 第 1 关 -->
+    <section id="panel-basic" class="panel" role="tabpanel" aria-labelledby="tab-basic">
+      <div class="panel-heading">
+        <div><p class="eyebrow">EXPERIMENT 01</p><h2>看见一次完整的加密</h2><p>输入 16 位数据和 16 位密钥，逐步查看教材图 D.1–D.5：密钥扩展、半字节代替、行移位、列混淆与轮密钥加。解密按相反顺序使用 K₂、K₁、K₀。</p></div>
+        <span class="tag">逐步可解释</span>
+      </div>
+      <div class="two-col">
+        <form id="basic-form" class="card" autocomplete="off">
+          <h3>输入工作区</h3>
+          <label for="basic-operation">运算方向</label>
+          <select id="basic-operation"><option value="encrypt">加密 · 明文 → 密文</option><option value="decrypt">解密 · 密文 → 明文</option></select>
+          <label for="basic-block">16 位数据（16 位二进制或 4 位十六进制）</label>
+          <input id="basic-block" class="mono" value="0110111101101011" required spellcheck="false">
+          <p id="basic-block-info" class="field-info" aria-live="polite"></p>
+          <label for="basic-key">16 位密钥</label>
+          <input id="basic-key" class="mono" value="1010011100111011" required spellcheck="false">
+          <p id="basic-key-info" class="field-info" aria-live="polite"></p>
+          <label for="basic-example">载入示例</label>
+          <select id="basic-example">
+            <option value="">选择一个示例…</option>
+            <option value="known">已知向量：P=6F6B，K=A73B → C=0738</option>
+            <option value="book">教材附录 D 连贯示例：P=A749，K=2D55（依次复现 D.2.1–D.2.4 与 D.3）</option>
+            <option value="zero">全零：P=0000，K=0000</option>
+          </select>
+          <div class="actions"><button class="primary" type="submit" id="basic-run">运行并查看过程 <span>→</span></button><button type="button" id="basic-use-result">结果回填</button></div>
+        </form>
+        <div class="card result-card">
+          <div class="result-title"><h3>运算结果</h3><span id="basic-result-direction" class="tag">等待运行</span></div>
+          <output id="basic-result" class="big-bits">---- ---- ---- ----</output>
+          <p class="result-hex">十六进制 <code id="basic-result-hex">----</code></p>
+          <div class="key-trio">
+            <div><span>轮密钥 K₀</span><code id="basic-k0">----</code></div>
+            <div><span>轮密钥 K₁</span><code id="basic-k1">----</code></div>
+            <div><span>轮密钥 K₂</span><code id="basic-k2">----</code></div>
+          </div>
+          <p id="basic-roundtrip" class="check-line" aria-live="polite">运行后显示反方向的还原检查。</p>
+          <div id="basic-words" class="trace-line">运行后显示密钥扩展 w₀…w₅。</div>
+        </div>
+      </div>
+      <div class="card visual-card">
+        <div class="result-title"><h3>课程图解 · 跟着半字节走一遍</h3><span class="tag">真实数据 · SVG 动画</span></div>
+        <p class="visual-intro">左图是整体结构（图 D.1）：加密在左、解密在右、密钥扩展居中；右侧按步骤依次展示数据结构（图 D.2）、密钥扩展（图 D.5）、轮函数（图 D.3）及每个变换的具体计算（图 D.4）。图中的每个数字都来自本次真实运算。</p>
+        <div id="cipher-visual"><div class="empty-state">正在载入图解…</div></div>
+      </div>
+      <details class="supplement-details"><summary>原理速查：S 盒、逆 S 盒、GF(2⁴) 乘法表与参数</summary>
+        <div class="card"><div id="reference-host" class="empty-state">展开后载入。</div></div>
+      </details>
+    </section>
+
+    <!-- 第 2 关 -->
+    <section id="panel-cross" class="panel" role="tabpanel" aria-labelledby="tab-cross" hidden>
+      <div class="panel-heading">
+        <div><p class="eyebrow">EXPERIMENT 02</p><h2>一个人，也能完成组内与组间互测</h2><p>同一个算法标准、三种结构不同的独立实现：先在组内核对密文一致，再让 A 组、B 组互相解密，也可以与其他小组交换测试向量。</p></div>
+        <span class="tag">个人模拟实验</span>
+      </div>
+      <div class="simulation-notice">个人在本机模拟：A、B、C 是三份互相独立的代码（整数查表、0/1 字符串、GF 多项式矩阵）。这里记录的是实际程序互测，没有其他同学参与；与真实小组的互测请使用页面底部的“交换文件”。</div>
+
+      <h3 class="section-title"><span>A</span> 组内测试 · 三种实现互验</h3>
+      <div class="two-col" id="group-row">
+        <form id="group-form" class="card" autocomplete="off">
+          <h3>共享密钥与测试明文</h3>
+          <label for="group-key">双方约定的 16 位密钥</label>
+          <input id="group-key" class="mono" value="1010011100111011" required spellcheck="false">
+          <label for="group-plaintexts">16 位明文（每行一条，二进制或十六进制）</label>
+          <textarea id="group-plaintexts" class="mono" rows="6" required spellcheck="false">6F6B
+0000
+FFFF
+0001
+8000
+1234
+A5A5
+5A5A</textarea>
+          <div class="actions"><button type="submit" class="primary" id="group-run">运行组内互验 →</button><button type="button" id="group-random">随机 256 个明文</button></div>
+        </form>
+        <div class="card">
+          <h3>互验结果 · 逐条实际核验</h3>
+          <div id="group-summary" class="stats" aria-live="polite"><div><strong>—</strong><span>A、B、C 加密一致</span></div><div><strong>—</strong><span>3×3 交叉解密还原</span></div><div><strong>—</strong><span>参与实现</span></div></div>
+          <p id="group-note" class="hint">运行后显示通过数量。三份实现各自计算，不把一份结果复制给另一份。</p>
+          <div class="table-wrap"><table id="group-table" class="data-table"><thead><tr><th>明文 P</th><th>A 密文</th><th>B 密文</th><th>C 密文</th><th>一致</th><th>3×3 交叉</th></tr></thead><tbody></tbody></table></div>
+        </div>
+      </div>
+      <div class="card"><div class="result-title"><h3>交叉解密矩阵</h3><span class="tag">选中一行查看</span></div><div id="group-matrix" class="empty-state">运行互验后，点击上表任意一行，这里显示“谁加密 × 谁解密”的 9 种组合。</div></div>
+
+      <h3 class="section-title"><span>B</span> 组间测试 · A 组 ↔ B 组</h3>
+      <div class="two-col" id="peer-row">
+        <form id="peer-form" class="card" autocomplete="off">
+          <h3>两个小组与共享密钥</h3>
+          <div class="field-row">
+            <div><label for="peer-a">A 组使用</label><select id="peer-a"><option value="A" selected>实现 A · 整数查表</option><option value="B">实现 B · 0/1 字符串</option><option value="C">实现 C · GF 多项式矩阵</option></select></div>
+            <div><label for="peer-b">B 组使用</label><select id="peer-b"><option value="A">实现 A · 整数查表</option><option value="B">实现 B · 0/1 字符串</option><option value="C" selected>实现 C · GF 多项式矩阵</option></select></div>
+          </div>
+          <label for="peer-key">共享的 16 位密钥</label>
+          <input id="peer-key" class="mono" value="0010110101010101" required spellcheck="false">
+          <label for="peer-plaintexts">16 位明文（每行一条，最多 256 条）</label>
+          <textarea id="peer-plaintexts" class="mono" rows="5" required spellcheck="false">6F6B
+0000
+FFFF
+1234
+BEEF</textarea>
+          <div class="actions"><button type="submit" class="primary" id="peer-run">运行 A / B 组互测 →</button><button type="button" id="peer-all">载入 256 个明文</button></div>
+        </form>
+        <div class="card">
+          <h3>三项互测 · 逐条实际核验</h3>
+          <div id="peer-summary" class="stats" aria-live="polite"><div><strong>—</strong><span>A、B 组密文一致</span></div><div><strong>—</strong><span>A → B 解密还原</span></div><div><strong>—</strong><span>B → A 解密还原</span></div></div>
+          <p id="peer-note" class="hint">运行后显示通过数量。两个小组分别计算，再比较结果。</p>
+          <div class="table-wrap"><table id="peer-table" class="data-table"><thead><tr><th>明文 P</th><th>A 组密文</th><th>B 组密文</th><th>A→B / B→A</th><th>动画</th></tr></thead><tbody></tbody></table></div>
+          <button id="peer-download" type="button" disabled>下载个人模拟记录 ↓</button>
+        </div>
+      </div>
+      <div class="card visual-card">
+        <div class="result-title"><h3>加密 → 传递 → 解密</h3><span class="tag">可切换方向与样本</span></div>
+        <label for="peer-direction">双向演示</label>
+        <select id="peer-direction" class="inline-select"><option value="a_to_b">A 组加密 → B 组解密</option><option value="b_to_a">B 组加密 → A 组解密</option></select>
+        <div id="peer-visual"><div class="empty-state">运行组间互测后，点击播放观察密文在两个小组之间传递。</div></div>
+      </div>
+
+      <h3 class="section-title"><span>C</span> 与其他小组交换测试向量</h3>
+      <details class="supplement-details" open><summary>生成 / 核验交换文件（真实组间测试用）</summary>
+        <div class="two-col">
+          <form id="export-form" class="card" autocomplete="off">
+            <h3>生成测试向量给对方</h3>
+            <div class="field-row">
+              <div><label for="export-key">约定的 16 位密钥</label><input id="export-key" class="mono" value="1010011100111011" required spellcheck="false"></div>
+              <div><label for="export-impl">由哪个实现计算</label><select id="export-impl"><option value="A">实现 A</option><option value="B">实现 B</option><option value="C">实现 C</option></select></div>
+            </div>
+            <label for="export-plaintexts">16 位明文（每行一条）</label>
+            <textarea id="export-plaintexts" class="mono" rows="5" required spellcheck="false">6F6B
+0000
+FFFF
+1234</textarea>
+            <p class="hint">文件显式包含密钥，只用于课程演示。不要填写真实秘密。</p>
+            <div class="actions"><button class="primary" type="submit" id="export-json">下载 JSON 交换文件 ↓</button><button type="button" id="export-lines">复制纯文本向量</button></div>
+          </form>
+          <form id="verify-form" class="card" autocomplete="off">
+            <h3>核验对方的测试向量</h3>
+            <label for="verify-file">选择 JSON 文件</label>
+            <input id="verify-file" type="file" accept=".json,application/json,.txt">
+            <label for="verify-text">或粘贴 JSON / 每行「明文 密钥 密文」</label>
+            <textarea id="verify-text" class="mono" rows="6" placeholder="6F6B A73B 0738&#10;# 二进制或十六进制均可，# 之后是注释" spellcheck="false"></textarea>
+            <div class="field-row">
+              <div><label for="verify-impl">用哪个实现核验</label><select id="verify-impl"><option value="A">实现 A</option><option value="B">实现 B</option><option value="C">实现 C</option></select></div>
+              <div class="align-end"><button class="primary" type="submit" id="verify-run">核验加密与解密 →</button></div>
+            </div>
+            <div id="verify-result" class="readout" aria-live="polite">可核验其他小组导出的文件，或粘贴三列文本。算法约定（S 盒、列混淆矩阵、半字节排列）见开发手册。</div>
+          </form>
+        </div>
+      </details>
+    </section>
+
+    <!-- 第 3 关 -->
+    <section id="panel-ascii" class="panel" role="tabpanel" aria-labelledby="tab-ascii" hidden>
+      <div class="panel-heading">
+        <div><p class="eyebrow">EXPERIMENT 03</p><h2>让一段文字经过加密</h2><p>字符串先转成字节（ASCII 字符与 ASCII 编码完全相同，中文按 UTF-8），每 2 字节组成一个 16 位分组，逐组加密。密文字节多半不可打印，以十六进制 / Base64 传递，同时给出“乱码字符串”视图。</p></div>
+        <span class="tag">2 字节一组</span>
+      </div>
+      <div class="two-col">
+        <form id="ascii-form" class="card" autocomplete="off">
+          <h3>文本工作区</h3>
+          <div class="field-row">
+            <div><label for="ascii-operation">运算方向</label><select id="ascii-operation"><option value="encrypt">加密文本</option><option value="decrypt">解密密文</option></select></div>
+            <div><label for="ascii-padding">奇数字节的填充</label><select id="ascii-padding"><option value="zero" selected>补 0x00（默认）</option><option value="pkcs7">PKCS#7</option><option value="none">无填充（要求偶数）</option></select></div>
+          </div>
+          <label for="ascii-key">16 位密钥</label>
+          <input id="ascii-key" class="mono" value="1010011100111011" required spellcheck="false">
+          <label for="ascii-text">明文文本 / 密文（解密时）</label>
+          <textarea id="ascii-text" rows="4" maxlength="4096" spellcheck="false">Hello, S-AES!</textarea>
+          <div class="field-row">
+            <div><label for="ascii-format">解密时密文的编码</label><select id="ascii-format"><option value="hex">十六进制</option><option value="base64">Base64</option></select></div>
+            <div class="align-end"><button type="button" id="ascii-refill">密文回填解密</button></div>
+          </div>
+          <div class="actions"><button type="submit" class="primary" id="ascii-run">运行文本转换 →</button></div>
+        </form>
+        <div class="card">
+          <h3>转换结果</h3>
+          <div id="ascii-summary" class="stats"><div><strong>—</strong><span>明文字节</span></div><div><strong>—</strong><span>填充后字节</span></div><div><strong>—</strong><span>16 位分组</span></div></div>
+          <div id="ascii-result" class="readout" aria-live="polite">等待输入。支持空串、空格、换行、中文；奇数字节按所选方式填充。</div>
+        </div>
+      </div>
+      <div class="card visual-card">
+        <div class="result-title"><h3>字符 → 字节 → 分组 → 密文</h3><span class="tag">逐分组明细</span></div>
+        <p id="ascii-flow-note" class="visual-intro">选中下表的一个分组，查看它从字符到密文分组的转换路径；也可以跳到第 1 关展开这一分组的完整加密过程。</p>
+        <div id="ascii-flow"><div class="empty-state">运行后显示。</div></div>
+        <div class="table-wrap"><table id="ascii-table" class="data-table"><thead><tr><th>#</th><th>明文字符</th><th>明文字节</th><th>明文分组</th><th>密文分组</th><th>密文字节（可打印部分）</th></tr></thead><tbody></tbody></table></div>
+        <button id="ascii-inspect" type="button" disabled>在第 1 关展开所选分组的加密过程 →</button>
+      </div>
+    </section>
+
+    <!-- 第 4 关 -->
+    <section id="panel-multiple" class="panel" role="tabpanel" aria-labelledby="tab-multiple" hidden>
+      <div class="panel-heading">
+        <div><p class="eyebrow">EXPERIMENT 04</p><h2>两把钥匙，真的更安全吗？</h2><p>双重加密把密钥扩到 32 位，却只让攻击者多做常数倍的功夫：中间相遇攻击用约 2×2¹⁶ 次运算而不是 2³² 次找回密钥。再看三重加密的两种密钥模式。</p></div>
+        <span class="tag">双重 · 攻击 · 三重</span>
+      </div>
+
+      <h3 class="section-title"><span>A</span> 双重加密 · 32 位密钥</h3>
+      <form id="double-form" class="card" autocomplete="off">
+        <h3>C = E<sub>K2</sub>( E<sub>K1</sub>( P ) )　P = D<sub>K1</sub>( D<sub>K2</sub>( C ) )</h3>
+        <div class="field-row field-row-3">
+          <div><label for="double-operation">运算方向</label><select id="double-operation"><option value="encrypt">加密 · 先 K1 后 K2</option><option value="decrypt">解密 · 先 K2 后 K1</option></select></div>
+          <div><label for="double-key">32 位密钥 K1‖K2（8 位十六进制或 32 位二进制）</label><input id="double-key" class="mono" value="2D55A73B" required spellcheck="false"></div>
+          <div><label for="double-block">16 位数据</label><input id="double-block" class="mono" value="6F6B" required spellcheck="false"></div>
+        </div>
+        <div class="actions"><button type="submit" class="primary" id="double-run">运行双重加解密 →</button><button type="button" id="double-use-result">结果回填</button></div>
+      </form>
+      <div class="card"><h3>计算链</h3><div id="double-result" class="empty-state">运行后显示每一重加密的输入、密钥与输出。</div></div>
+
+      <h3 class="section-title"><span>B</span> 中间相遇攻击</h3>
+      <div class="two-col" id="mitm-row">
+        <form id="mitm-form" class="card" autocomplete="off">
+          <h3>已知明密文对</h3>
+          <label for="mitm-pairs">每行：16 位明文 空格 16 位密文（同一把 32 位密钥）</label>
+          <textarea id="mitm-pairs" class="mono" rows="5" required spellcheck="false">6F6B 1977
+1234 84BA
+BEEF 868E</textarea>
+          <p id="mitm-secret-note" class="hint">示例由密钥 2D55A73B 生成。攻击程序只看明密文对；示例密钥只在攻击结束后用来核对候选集合。“随机生成示例”会换一把新密钥。</p>
+          <input id="mitm-secret" type="hidden" value="2D55A73B">
+          <div class="actions"><button class="primary" type="submit" id="mitm-run">运行中间相遇攻击 →</button><button type="button" id="mitm-example">随机生成示例（3 对）</button></div>
+        </form>
+        <div class="card">
+          <h3>攻击结果</h3>
+          <div id="mitm-summary" class="stats stats-4" aria-live="polite"><div><strong>—</strong><span>剩余候选密钥</span></div><div><strong>—</strong><span>分组运算次数</span></div><div><strong>—</strong><span>实测耗时</span></div><div><strong>—</strong><span>相对穷举 2³²</span></div></div>
+          <p id="mitm-note" class="hint">攻击只看明密文对：先枚举 2¹⁶ 个 K1 建立“中间值表”，再枚举 2¹⁶ 个 K2 解密密文并查表。</p>
+          <div id="mitm-funnel"></div>
+        </div>
+      </div>
+      <div class="card"><div class="result-title"><h3>原理图 · 在中间相遇</h3><span class="tag">2¹⁶ + 2¹⁶ 而非 2³²</span></div><div id="mitm-diagram"></div></div>
+      <div class="card"><div class="result-title"><h3>候选密钥</h3><span id="mitm-secret-check" class="tag">未运行</span></div><div class="table-wrap"><table id="mitm-table" class="data-table"><thead><tr><th>#</th><th>K1‖K2（十六进制）</th><th>K1</th><th>K2</th><th>说明</th></tr></thead><tbody></tbody></table></div><p id="mitm-candidates" class="hint"></p></div>
+
+      <h3 class="section-title"><span>C</span> 三重加密 · 两种密钥模式</h3>
+      <form id="triple-form" class="card" autocomplete="off">
+        <h3>EDE 三重加密</h3>
+        <div class="field-row field-row-4">
+          <div><label for="triple-mode">密钥模式</label><select id="triple-mode"><option value="ede2">32 位密钥（K1‖K2）</option><option value="ede3">48 位密钥（K1‖K2‖K3）</option></select></div>
+          <div><label for="triple-operation">运算方向</label><select id="triple-operation"><option value="encrypt">加密</option><option value="decrypt">解密</option></select></div>
+          <div><label for="triple-key" id="triple-key-label">32 位密钥 K1‖K2（8 位十六进制）</label><input id="triple-key" class="mono" value="2D55A73B" required spellcheck="false"></div>
+          <div><label for="triple-block">16 位数据</label><input id="triple-block" class="mono" value="6F6B" required spellcheck="false"></div>
+        </div>
+        <p id="triple-formula" class="hint">加密：C = E_K1( D_K2( E_K1( P ) ) )；解密：P = D_K1( E_K2( D_K1( C ) ) )。K3 取 K1。</p>
+        <div class="actions"><button type="submit" class="primary" id="triple-run">运行三重加解密 →</button></div>
+      </form>
+      <div class="card"><h3>计算链</h3><div id="triple-result" class="empty-state">运行后显示三次运算的输入、密钥与输出。</div></div>
+    </section>
+
+    <!-- 第 5 关 -->
+    <section id="panel-cbc" class="panel" role="tabpanel" aria-labelledby="tab-cbc" hidden>
+      <div class="panel-heading">
+        <div><p class="eyebrow">EXPERIMENT 05</p><h2>让每个分组记住前一个分组</h2><p>CBC 模式：Cᵢ = E<sub>K</sub>(Pᵢ ⊕ Cᵢ₋₁)，C₀ 是 16 位初始向量（IV，需双方共享但不必保密）。改动一个密文分组再解密，对比篡改前后的结果。</p></div>
+        <span class="tag">CBC · 篡改对比</span>
+      </div>
+      <div class="two-col">
+        <form id="cbc-form" class="card" autocomplete="off">
+          <h3>CBC 加密</h3>
+          <div class="field-row">
+            <div><label for="cbc-key">16 位密钥</label><input id="cbc-key" class="mono" value="1010011100111011" required spellcheck="false"></div>
+            <div><label for="cbc-iv">16 位初始向量 IV</label><div class="inline"><input id="cbc-iv" class="mono" value="0001001000110100" required spellcheck="false"><button type="button" id="cbc-iv-random" title="随机生成 IV">随机</button></div></div>
+          </div>
+          <label for="cbc-padding">填充方式</label>
+          <select id="cbc-padding"><option value="zero" selected>补 0x00（默认）</option><option value="pkcs7">PKCS#7</option><option value="none">无填充（要求偶数字节）</option></select>
+          <label for="cbc-text">较长的明文消息</label>
+          <textarea id="cbc-text" rows="4" maxlength="4096" spellcheck="false">CBC mode demo: AAAAAAAAAAAAAAAA tamper with one block and compare.</textarea>
+          <div class="actions"><button type="submit" class="primary" id="cbc-run">CBC 加密 →</button></div>
+        </form>
+        <div class="card">
+          <h3>加密结果</h3>
+          <div id="cbc-summary" class="stats"><div><strong>—</strong><span>16 位分组</span></div><div><strong>—</strong><span>初始向量 IV</span></div><div><strong>—</strong><span>ECB 重复分组</span></div></div>
+          <label for="cbc-package">传输包：IV ‖ 密文（十六进制，接收方需要同样的 IV）</label>
+          <textarea id="cbc-package" class="mono" rows="3" readonly spellcheck="false"></textarea>
+          <div class="actions"><button type="button" id="cbc-copy">复制传输包</button><button type="button" id="cbc-to-decrypt">用它做解密 ↓</button></div>
+        </div>
+      </div>
+      <div class="card visual-card">
+        <div class="result-title"><h3>加密链与分组明细</h3><span class="tag">前 8 个分组</span></div>
+        <div id="cbc-chain"><div class="empty-state">运行 CBC 加密后显示链式结构。</div></div>
+        <div class="table-wrap"><table id="cbc-table" class="data-table"><thead><tr><th>#</th><th>明文 Pᵢ</th><th>Cᵢ₋₁（或 IV）</th><th>Pᵢ ⊕ Cᵢ₋₁</th><th>密文 Cᵢ</th></tr></thead><tbody></tbody></table></div>
+      </div>
+
+      <form id="cbc-decrypt-form" class="card" autocomplete="off">
+        <h3>CBC 解密</h3>
+        <label for="cbc-decrypt-input">传输包（IV ‖ 密文）或仅密文，十六进制</label>
+        <textarea id="cbc-decrypt-input" class="mono" rows="3" spellcheck="false"></textarea>
+        <div class="field-row">
+          <div><label for="cbc-decrypt-iv">IV（输入的是传输包时可留空）</label><input id="cbc-decrypt-iv" class="mono" placeholder="留空表示取传输包的前 2 字节" spellcheck="false"></div>
+          <div class="align-end"><button class="primary" type="submit" id="cbc-decrypt-run">CBC 解密 →</button></div>
+        </div>
+        <div id="cbc-decrypt-result" class="readout" aria-live="polite">解密使用上方的密钥与填充方式。</div>
+      </form>
+
+      <h3 class="section-title"><span>★</span> 篡改密文分组，再解密</h3>
+      <form id="tamper-form" class="card" autocomplete="off">
+        <h3>选择怎样改动密文</h3>
+        <div class="field-row field-row-4">
+          <div><label for="tamper-action">改动方式</label><select id="tamper-action"><option value="replace">替换为另一个分组的密文</option><option value="flip">修改：翻转 1 位</option><option value="set">修改：设为自定义值</option><option value="swap">交换两个分组</option></select></div>
+          <div><label for="tamper-index">目标分组 #（从 1 开始）</label><input id="tamper-index" type="number" min="1" value="4" required></div>
+          <div id="tamper-other-field"><label for="tamper-other">另一个分组 #</label><input id="tamper-other" type="number" min="1" value="2"></div>
+          <div id="tamper-bit-field" hidden><label for="tamper-bit">位序号 b0–b15</label><input id="tamper-bit" type="number" min="0" max="15" value="5"></div>
+          <div id="tamper-value-field" hidden><label for="tamper-value">自定义密文（16 位）</label><input id="tamper-value" class="mono" value="DEAD" spellcheck="false"></div>
+        </div>
+        <div class="actions"><button class="primary" type="submit" id="tamper-run">篡改并对比解密结果 →</button><span class="hint">使用上方加密所用的密钥、IV、填充与明文。</span></div>
+      </form>
+      <div class="card">
+        <div class="result-title"><h3>篡改前后的解密对比</h3><span id="tamper-badge" class="tag">未运行</span></div>
+        <div id="tamper-strip" class="empty-state">运行后，每个明文分组按受影响程度着色：未受影响、可预测的位翻转、整块乱码。</div>
+        <div id="tamper-text"></div>
+        <div id="tamper-notes"></div>
+        <details class="supplement-details"><summary>逐分组数值对照</summary><div class="table-wrap"><table id="tamper-table" class="data-table"><thead><tr><th>#</th><th>状态</th><th>原密文</th><th>篡改后密文</th><th>原明文</th><th>篡改后解密</th><th>明文差异</th></tr></thead><tbody></tbody></table></div></details>
+      </div>
+    </section>
+
+    <!-- 一键闯关 -->
+    <section id="panel-all" class="panel" role="tabpanel" aria-labelledby="tab-all" hidden>
+      <div class="panel-heading">
+        <div><p class="eyebrow">ALL LEVELS</p><h2>一个人，一键闯完五关</h2><p>自检使用教材示例、已知向量、固定种子的随机数据和三种独立实现互相核对，每一项都实际计算。全空间穷举对照在命令行 <code>python -m unittest discover</code> 中运行。</p></div>
+        <span class="tag">可复现</span>
+      </div>
+      <div class="card">
+        <div class="all-head">
+          <div id="all-summary" class="hero-figure" aria-live="polite"><strong>—/5</strong><span>等待运行</span></div>
+          <div class="actions"><button class="primary" id="all-run" type="button">一键闯关 →</button><button id="all-download" type="button" disabled>下载闯关记录 ↓</button></div>
+        </div>
+        <div id="all-levels" class="level-list"></div>
+      </div>
+    </section>
+
+    <footer><span>信息安全导论 / S-AES 算法实现</span><span>教学实验 · 16 位分组与 16 位密钥不适合保护真实数据</span></footer>
+  </main>
+</body>
+</html>

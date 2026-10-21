@@ -61,21 +61,34 @@ def _describe_operation(operation: str, before: int, key: int | None, key_name: 
     return _describe_mix(before, matrix)
 
 
-def _cipher_steps(trace: dict) -> list[dict]:
-    decrypt = trace["decrypt"]
+def plan_outline(decrypt: bool) -> list[dict]:
+    """加解密流程的纲要（名称、分组、使用的轮密钥），前端据此排布整体结构图，不再硬编码算法流程。"""
+    plan = core.DECRYPT_PLAN if decrypt else core.ENCRYPT_PLAN
     groups = DECRYPT_GROUPS if decrypt else ENCRYPT_GROUPS
-    steps = []
-    for index, (operation, key_index) in enumerate(trace["plan"]):
-        before, after = trace["states"][index], trace["states"][index + 1]
+    outline = []
+    for index, (operation, key_index) in enumerate(plan):
         abbreviation, name, description = OPERATION_TEXT[operation]
         key_name = None if key_index is None else f"K{key_index}"
-        group = groups[index]
-        label = f"A_{key_name}" if operation == "add_key" else abbreviation
+        outline.append({"index": index, "kind": operation, "group": groups[index], "round": GROUP_ROUND[groups[index]],
+                        "label": f"A_{key_name}" if operation == "add_key" else abbreviation, "name": name,
+                        "key_name": key_name, "description": description})
+    return outline
+
+
+def _cipher_steps(trace: dict) -> list[dict]:
+    decrypt = trace["decrypt"]
+    steps = []
+    for item in plan_outline(decrypt):
+        index, operation = item["index"], item["kind"]
+        key_index = None if item["key_name"] is None else int(item["key_name"][1])
+        before, after = trace["states"][index], trace["states"][index + 1]
         steps.append({"id": f"{'d' if decrypt else 'e'}{index}-{operation}", "phase": "cipher", "kind": operation,
-                      "index": index, "group": group, "round": GROUP_ROUND[group], "label": label,
-                      "title": f"{GROUP_TITLE[decrypt][group]} · {label} {name}", "description": description,
-                      "before": before, "after": after,
-                      **_describe_operation(operation, before, None if key_index is None else trace["round_keys"][key_index], key_name)})
+                      "index": index, "group": item["group"], "round": item["round"], "label": item["label"],
+                      "name": item["name"], "key_name": item["key_name"],
+                      "title": f"{GROUP_TITLE[decrypt][item['group']]} · {item['label']} {item['name']}",
+                      "description": item["description"], "before": before, "after": after,
+                      **_describe_operation(operation, before, None if key_index is None else trace["round_keys"][key_index],
+                                            item["key_name"])})
     return steps
 
 
@@ -117,12 +130,13 @@ def visual_trace(block: int, key: int, operation: str = "encrypt") -> dict:
     decrypt = operation == "decrypt"
     trace = core.trace_block(block, key, decrypt)
     result = trace["result"]
-    back = core.decrypt_block(result, key) if not decrypt else core.encrypt_block(result, key)
+    back = core.trace_block(result, key, not decrypt)  # 反方向再算一遍，用来核对并画出整体结构图的另一侧
     return {"mode": operation, "spec_id": core.SPEC_ID, "input": block, "key": key, "result": result,
             "words": list(trace["words"]), "round_keys": list(trace["round_keys"]), "states": trace["states"],
+            "outline": {"encrypt": plan_outline(False), "decrypt": plan_outline(True)},
             "steps": [_structure_step(block, key, decrypt), *_key_steps(key), *_cipher_steps(trace)],
             "roundtrip": {"operation": "decrypt" if not decrypt else "encrypt", "input": result,
-                          "result": back, "matches": back == block}}
+                          "result": back["result"], "states": back["states"], "matches": back["result"] == block}}
 
 
 def _implementation_notes() -> list[dict]:
