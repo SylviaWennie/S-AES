@@ -1,0 +1,12 @@
+# S-AES 测试向量：每行「明文 密钥 密文」，十六进制（二进制也可），# 之后是注释
+# 密钥 A73B；由 python -m saes export 生成，可用 python -m saes verify examples/vectors.txt 核验
+6F6B A73B 0738
+0000 A73B 90A6
+FFFF A73B 3B40
+0001 A73B 30AD
+8000 A73B 20A5
+1234 A73B 9B24
+A5A5 A73B 37A5
+5A5A A73B 6104
+# 教材附录 D 的连贯示例：P=A749，K=2D55（D.2.1–D.2.4 与 D.3 的示例都出自这一次加密）
+A749 2D55 C349

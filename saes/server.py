@@ -18,6 +18,7 @@ from .visualization import reference_tables, simulate_group, simulate_peers, vis
 WEB_ROOT = Path(__file__).resolve().parent.parent / "web"
 MAX_REQUEST_BYTES = 262_144
 MAX_TEXT_CHARACTERS = 4096
+DISCARD_LIMIT = 1 << 20  # 拒绝请求时最多读掉并丢弃的请求体字节数
 STATIC_FILES = {"/": ("index.html", "text/html; charset=utf-8"), "/style.css": ("style.css", "text/css; charset=utf-8"),
                 "/visuals.css": ("visuals.css", "text/css; charset=utf-8"),
                 "/common.js": ("common.js", "text/javascript; charset=utf-8"),
@@ -296,6 +297,18 @@ class Handler(BaseHTTPRequestHandler):
     def send_json(self, status: int, result: dict) -> None:
         self.send_content(status, json.dumps(result, ensure_ascii=False).encode("utf-8"), "application/json; charset=utf-8")
 
+    def discard_request_body(self) -> None:
+        """拒绝请求前先读掉请求体：直接关闭带有未读数据的连接会让客户端收到 TCP 重置，丢失错误响应。"""
+        try:
+            remaining = min(int(self.headers.get("Content-Length", "0")), DISCARD_LIMIT)
+        except ValueError:
+            return
+        while remaining > 0:
+            chunk = self.rfile.read(min(remaining, 65536))
+            if not chunk:
+                return
+            remaining -= len(chunk)
+
     def valid_host(self) -> bool:
         port = self.server.server_port
         return self.headers.get("Host") in (f"127.0.0.1:{port}", f"localhost:{port}")
@@ -324,11 +337,13 @@ class Handler(BaseHTTPRequestHandler):
         origin = self.headers.get("Origin")
         allowed = {f"http://127.0.0.1:{self.server.server_port}", f"http://localhost:{self.server.server_port}"}
         if not self.valid_host() or (origin is not None and origin not in allowed):
+            self.discard_request_body()
             self.send_json(403, {"error": "仅允许本机同源请求"})
             return
         try:
             length = int(self.headers.get("Content-Length", "0"))
             if not 0 < length <= MAX_REQUEST_BYTES:
+                self.discard_request_body()
                 raise ValueError(f"请求大小应在 1–{MAX_REQUEST_BYTES} 字节之间")
             payload = json.loads(self.rfile.read(length))
             self.send_json(200, dispatch(urlsplit(self.path).path, payload))

@@ -1,0 +1,582 @@
+{
+  "level1": {
+    "known_states": [
+      {
+        "label": "A_K0",
+        "title": "第 0 轮 · A_K0 轮密钥加",
+        "after": "C850"
+      },
+      {
+        "label": "NS",
+        "title": "第 1 轮 · NS 半字节代替",
+        "after": "C619"
+      },
+      {
+        "label": "SR",
+        "title": "第 1 轮 · SR 行移位",
+        "after": "C916"
+      },
+      {
+        "label": "MC",
+        "title": "第 1 轮 · MC 列混淆",
+        "after": "ECA2"
+      },
+      {
+        "label": "A_K1",
+        "title": "第 1 轮 · A_K1 轮密钥加",
+        "after": "F085"
+      },
+      {
+        "label": "NS",
+        "title": "第 2 轮 · NS 半字节代替",
+        "after": "7961"
+      },
+      {
+        "label": "SR",
+        "title": "第 2 轮 · SR 行移位",
+        "after": "7169"
+      },
+      {
+        "label": "A_K2",
+        "title": "第 2 轮 · A_K2 轮密钥加",
+        "after": "0738"
+      }
+    ],
+    "known_input": "6F6B",
+    "known_result": "0738",
+    "round_keys": [
+      "A73B",
+      "1C27",
+      "7651"
+    ],
+    "book_states": [
+      "A749",
+      "8A1C",
+      "604C",
+      "6C40",
+      "3743",
+      "8BAA",
+      "6300",
+      "6003",
+      "C349"
+    ],
+    "book_words_bits": [
+      "00101101",
+      "01010101",
+      "10111100",
+      "11101001",
+      "10100011",
+      "01001010"
+    ],
+    "permutation": {
+      "2D55": {
+        "distinct_ciphertexts": 65536,
+        "roundtrip_ok": 65536
+      },
+      "0000": {
+        "distinct_ciphertexts": 65536,
+        "roundtrip_ok": 65536
+      },
+      "FFFF": {
+        "distinct_ciphertexts": 65536,
+        "roundtrip_ok": 65536
+      }
+    },
+    "edge": [
+      {
+        "plaintext": "0000",
+        "key": "0000",
+        "ciphertext": "071E",
+        "restored": "0000"
+      },
+      {
+        "plaintext": "FFFF",
+        "key": "FFFF",
+        "ciphertext": "5343",
+        "restored": "FFFF"
+      },
+      {
+        "plaintext": "0000",
+        "key": "FFFF",
+        "ciphertext": "08C1",
+        "restored": "0000"
+      },
+      {
+        "plaintext": "FFFF",
+        "key": "0000",
+        "ciphertext": "2930",
+        "restored": "FFFF"
+      },
+      {
+        "plaintext": "8000",
+        "key": "0001",
+        "ciphertext": "BE05",
+        "restored": "8000"
+      }
+    ]
+  },
+  "level2": {
+    "sample": [
+      {
+        "plaintext": "6F6B",
+        "A": "0738",
+        "B": "0738",
+        "C": "0738"
+      },
+      {
+        "plaintext": "0000",
+        "A": "90A6",
+        "B": "90A6",
+        "C": "90A6"
+      },
+      {
+        "plaintext": "FFFF",
+        "A": "3B40",
+        "B": "3B40",
+        "C": "3B40"
+      },
+      {
+        "plaintext": "0001",
+        "A": "30AD",
+        "B": "30AD",
+        "C": "30AD"
+      },
+      {
+        "plaintext": "8000",
+        "A": "20A5",
+        "B": "20A5",
+        "C": "20A5"
+      },
+      {
+        "plaintext": "1234",
+        "A": "9B24",
+        "B": "9B24",
+        "C": "9B24"
+      },
+      {
+        "plaintext": "A5A5",
+        "A": "37A5",
+        "B": "37A5",
+        "C": "37A5"
+      },
+      {
+        "plaintext": "5A5A",
+        "A": "6104",
+        "B": "6104",
+        "C": "6104"
+      }
+    ],
+    "plaintext_sweep": {
+      "key": "2D55",
+      "plaintexts": 65536,
+      "encrypt_equal": 65536,
+      "decrypt_ok_by_A_B_C": 196608,
+      "decrypt_total": 196608
+    },
+    "plaintext_sweep_ms": 25327.152799989562,
+    "key_sweep": {
+      "plaintext": "6F6B",
+      "keys": 65536,
+      "encrypt_equal": 65536,
+      "decrypt_ok_by_A_B_C": 196608,
+      "decrypt_total": 196608
+    },
+    "key_sweep_ms": 28637.320999987423,
+    "peers": {
+      "A-B": {
+        "encrypt_equal": 256,
+        "a_to_b_ok": 256,
+        "b_to_a_ok": 256
+      },
+      "A-C": {
+        "encrypt_equal": 256,
+        "a_to_b_ok": 256,
+        "b_to_a_ok": 256
+      },
+      "B-C": {
+        "encrypt_equal": 256,
+        "a_to_b_ok": 256,
+        "b_to_a_ok": 256
+      }
+    },
+    "group_random": {
+      "key": "2D55",
+      "total": 2048,
+      "counts": {
+        "encrypt_equal": 2048,
+        "cross_decrypt_ok": 18432,
+        "cross_decrypt_total": 18432
+      }
+    },
+    "exchange": {
+      "vectors": 8,
+      "verified_by": {
+        "A": true,
+        "B": true,
+        "C": true
+      },
+      "tampered_detected": true,
+      "tampered_encrypt_passed": 7,
+      "tampered_decrypt_passed": 7
+    }
+  },
+  "level3": {
+    "key": "A73B",
+    "rows": [
+      {
+        "text": "Hello, S-AES!",
+        "bytes": "48656C6C6F2C20532D41455321",
+        "blocks": 7,
+        "cipher": "2B917F2D7CBDBBB52F04658A472C",
+        "view": "+··-|···/·e·G,",
+        "restored": "Hello, S-AES!"
+      },
+      {
+        "text": "AB",
+        "bytes": "4142",
+        "blocks": 1,
+        "cipher": "F014",
+        "view": "··",
+        "restored": "AB"
+      },
+      {
+        "text": "ABABABAB",
+        "bytes": "4142414241424142",
+        "blocks": 4,
+        "cipher": "F014F014F014F014",
+        "view": "········",
+        "restored": "ABABABAB"
+      },
+      {
+        "text": "",
+        "bytes": "",
+        "blocks": 0,
+        "cipher": "",
+        "view": "",
+        "restored": ""
+      },
+      {
+        "text": "A",
+        "bytes": "41",
+        "blocks": 1,
+        "cipher": "D729",
+        "view": "·)",
+        "restored": "A"
+      },
+      {
+        "text": "信息安全",
+        "bytes": "E4BFA1E681AFE5AE89E585A8",
+        "blocks": 6,
+        "cipher": "93A86C5873D617ADD74F37A3",
+        "view": "··lXs····O7·",
+        "restored": "信息安全"
+      }
+    ],
+    "paddings": [
+      {
+        "scheme": "zero",
+        "padded": "61626300",
+        "cipher": "65423F31",
+        "restored": "abc"
+      },
+      {
+        "scheme": "pkcs7",
+        "padded": "61626301",
+        "cipher": "65429F33",
+        "restored": "abc"
+      },
+      {
+        "scheme": "none",
+        "padded": "—",
+        "cipher": "—",
+        "restored": "拒绝：选择「无填充」时，明文字节数必须是偶数"
+      }
+    ]
+  },
+  "level4": {
+    "double": [
+      {
+        "plaintext": "6F6B",
+        "key": "2D55A73B",
+        "cipher": "1977"
+      },
+      {
+        "plaintext": "1234",
+        "key": "2D55A73B",
+        "cipher": "84BA"
+      },
+      {
+        "plaintext": "BEEF",
+        "key": "2D55A73B",
+        "cipher": "868E"
+      }
+    ],
+    "triple": [
+      {
+        "mode": "ede2",
+        "key": "2D55A73B",
+        "cipher": "3218",
+        "restored": "6F6B"
+      },
+      {
+        "mode": "ede3",
+        "key": "2D55A73B1C27",
+        "cipher": "2DC6",
+        "restored": "6F6B"
+      }
+    ],
+    "trials": [
+      {
+        "seed": 1,
+        "key": "2265B1F5",
+        "counts": [
+          65603,
+          1,
+          1
+        ],
+        "unique": true,
+        "found": true,
+        "operations": 262280,
+        "elapsed_ms": 2739.7,
+        "table_ms": 628.8
+      },
+      {
+        "seed": 2,
+        "key": "F4BEA973",
+        "counts": [
+          65689,
+          1,
+          1
+        ],
+        "unique": true,
+        "found": true,
+        "operations": 262452,
+        "elapsed_ms": 3024.0,
+        "table_ms": 885.8
+      },
+      {
+        "seed": 3,
+        "key": "3CEB3FFD",
+        "counts": [
+          65591,
+          3,
+          1
+        ],
+        "unique": true,
+        "found": true,
+        "operations": 262260,
+        "elapsed_ms": 3114.0,
+        "table_ms": 635.8
+      },
+      {
+        "seed": 4,
+        "key": "3C6DA5D7",
+        "counts": [
+          65627,
+          1,
+          1
+        ],
+        "unique": true,
+        "found": true,
+        "operations": 262328,
+        "elapsed_ms": 2707.4,
+        "table_ms": 642.4
+      },
+      {
+        "seed": 5,
+        "key": "9F767C45",
+        "counts": [
+          66254,
+          2,
+          1
+        ],
+        "unique": true,
+        "found": true,
+        "operations": 263584,
+        "elapsed_ms": 2973.7,
+        "table_ms": 783.7
+      },
+      {
+        "seed": 6,
+        "key": "CB1855FE",
+        "counts": [
+          65390,
+          4,
+          1
+        ],
+        "unique": true,
+        "found": true,
+        "operations": 261860,
+        "elapsed_ms": 2781.6,
+        "table_ms": 619.0
+      }
+    ],
+    "estimate": {
+      "per_operation_us": 8.170828,
+      "exhaustive_operations": 4295032832,
+      "estimated_seconds": 35093.9745246249
+    },
+    "per_operation_us": {
+      "A": 9.12,
+      "B": 46.49,
+      "C": 85.75
+    }
+  },
+  "level5": {
+    "key": "A73B",
+    "iv": "1234",
+    "message": "CBC mode demo: AAAAAAAAAAAAAAAA tamper with one block and compare.",
+    "blocks": 33,
+    "rows": [
+      {
+        "index": 1,
+        "plain": "4342",
+        "previous": "1234",
+        "xor": "5176",
+        "cipher": "497F"
+      },
+      {
+        "index": 2,
+        "plain": "4320",
+        "previous": "497F",
+        "xor": "0A5F",
+        "cipher": "E105"
+      },
+      {
+        "index": 3,
+        "plain": "6D6F",
+        "previous": "E105",
+        "xor": "8C6A",
+        "cipher": "1F29"
+      },
+      {
+        "index": 4,
+        "plain": "6465",
+        "previous": "1F29",
+        "xor": "7B4C",
+        "cipher": "1AFC"
+      },
+      {
+        "index": 5,
+        "plain": "2064",
+        "previous": "1AFC",
+        "xor": "3A98",
+        "cipher": "5426"
+      },
+      {
+        "index": 6,
+        "plain": "656D",
+        "previous": "5426",
+        "xor": "314B",
+        "cipher": "301F"
+      },
+      {
+        "index": 7,
+        "plain": "6F3A",
+        "previous": "301F",
+        "xor": "5F25",
+        "cipher": "0CBD"
+      },
+      {
+        "index": 8,
+        "plain": "2041",
+        "previous": "0CBD",
+        "xor": "2CFC",
+        "cipher": "E2FB"
+      }
+    ],
+    "ecb_repeated": 7,
+    "cbc_repeated": 0,
+    "wrong_iv_first_block_differs": true,
+    "wrong_iv_rest_ok": true,
+    "tampers": [
+      {
+        "action": {
+          "type": "replace",
+          "index": 3,
+          "other": 1
+        },
+        "changed": [
+          4
+        ],
+        "summary": {
+          "intact": 31,
+          "garbled": 1,
+          "bitflip": 1
+        },
+        "predictions_match": true,
+        "flip_differences": [
+          "1111101111111001"
+        ],
+        "tampered_text": "CBC mo\u0015v۝emo: AAAAAAAAAAAAAAAA tamper with one block and compare."
+      },
+      {
+        "action": {
+          "type": "flip",
+          "index": 9,
+          "bit": 0
+        },
+        "changed": [
+          10
+        ],
+        "summary": {
+          "intact": 31,
+          "garbled": 1,
+          "bitflip": 1
+        },
+        "predictions_match": true,
+        "flip_differences": [
+          "1000000000000000"
+        ],
+        "tampered_text": "CBC mode demo: AAA�J�AAAAAAAAAA tamper with one block and compare."
+      },
+      {
+        "action": {
+          "type": "set",
+          "index": 0,
+          "value": 57005
+        },
+        "changed": [
+          1
+        ],
+        "summary": {
+          "intact": 31,
+          "garbled": 1,
+          "bitflip": 1
+        },
+        "predictions_match": true,
+        "flip_differences": [
+          "1001011111010010"
+        ],
+        "tampered_text": "�\u0017��mode demo: AAAAAAAAAAAAAAAA tamper with one block and compare."
+      },
+      {
+        "action": {
+          "type": "swap",
+          "index": 2,
+          "other": 5
+        },
+        "changed": [
+          3,
+          6
+        ],
+        "summary": {
+          "intact": 29,
+          "garbled": 2,
+          "bitflip": 2
+        },
+        "predictions_match": true,
+        "flip_differences": [
+          "0010111100110110",
+          "0010111100110110"
+        ],
+        "tampered_text": "CBC �NKS d�L@\f AAAAAAAAAAAAAAAA tamper with one block and compare."
+      }
+    ]
+  },
+  "environment": {
+    "python": "Python 3.12.7",
+    "system": "Windows",
+    "date": "2026-10-21"
+  }
+}

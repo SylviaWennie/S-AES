@@ -86,6 +86,16 @@ class StaticAndSecurityTests(ServerTestCase):
         status, _headers, _data = self.request("POST", "/api/visual", body, headers={"Origin": f"http://127.0.0.1:{self.port}"})
         self.assertEqual(status, 200)
 
+    def test_rejected_requests_always_deliver_their_error_response(self):
+        # 回归：拒绝请求时若不读请求体，Windows 上连接会被重置，客户端偶尔收不到 403 / 400
+        padded = {"block": "6F6B", "key": "A73B", "operation": "encrypt", "padding": "x" * 20000}
+        for _ in range(40):
+            status, _headers, data = self.request("POST", "/api/visual", padded, headers={"Origin": "http://evil.example"})
+            self.assertEqual(status, 403)
+            self.assertIn("error", json.loads(data))
+            status, _headers, _data = self.request("POST", "/api/visual", b"x" * (server.MAX_REQUEST_BYTES + 1))
+            self.assertEqual(status, 400)
+
     def test_malformed_requests_get_a_clear_400(self):
         cases = [(b"", "请求大小"), (b"{not json", None), (b"[1, 2]", "JSON 对象"), (b"x" * (server.MAX_REQUEST_BYTES + 1), "请求大小")]
         for body, message in cases:

@@ -151,6 +151,11 @@ try {
   await click("#peer-visual .viz-next");
   check(2, "切换为 B 组加密 → A 组解密，同样还原一致 ✓", (await textOf("#peer-visual svg")).includes("还原一致 ✓"));
 
+  await click("#peer-all");
+  await waitFor(`document.querySelector("#peer-summary div:nth-child(1) strong").textContent === "256 / 256"`, "载入 256 个明文");
+  check(2, "「载入 256 个明文」：两组 256 / 256 密文一致，两个方向都还原",
+    (await Promise.all([1, 2, 3].map((n) => textOf(`#peer-summary div:nth-child(${n}) strong`)))).join("|") === "256 / 256|256 / 256|256 / 256");
+
   await click("#export-lines");
   await waitFor(`document.getElementById("verify-text").value.split("\\n").length === 4`, "导出纯文本向量");
   await setValue("#verify-impl", "B");
@@ -187,6 +192,14 @@ try {
   await click("#ascii-run");
   await waitFor(`!document.getElementById("notice").hidden`, "无填充奇数字节");
   check(3, "无填充 + 奇数字节：被拒绝并提示", (await noticeText()).includes("偶数"), await noticeText());
+
+  await openTab("ascii");
+  await waitFor(`document.querySelectorAll("#ascii-table tbody tr").length === 7`, "第 3 关默认运行");
+  await page.evaluate(`document.querySelectorAll("#ascii-table tbody tr")[1].click()`);
+  await click("#ascii-inspect");
+  await waitFor(`document.getElementById("tab-basic").getAttribute("aria-selected") === "true" && document.querySelector("#cipher-visual .viz-player") && document.getElementById("basic-result-hex").textContent === "7F2D"`, "跳转到第 1 关");
+  check(3, "「在第 1 关展开所选分组」：数据为分组 6C6C（“ll”），停在第一个加密变换，密文 7F2D",
+    (await page.evaluate(`document.getElementById("basic-block").value`)) === "0110110001101100" && (await page.evaluate(`document.querySelector("#cipher-visual .viz-player").dataset.stepIndex`)) === "5");
 
   // ---------------------------------------------------------------- 第 4 关
   await openTab("multiple");

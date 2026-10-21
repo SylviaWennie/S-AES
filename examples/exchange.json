@@ -1,0 +1,80 @@
+{
+  "schema": "saes-cross-test-v1",
+  "spec_id": "saes-appendix-d-v1",
+  "conventions": {
+    "block_and_key": "16 位；b0 是最高位，十六进制写法与二进制一致（0x6F6B = 0110 1111 0110 1011）",
+    "state_layout": "按列排列：N0=b0..b3, N1=b4..b7, N2=b8..b11, N3=b12..b15；状态矩阵 [[N0,N2],[N1,N3]]",
+    "encrypt_rounds": "AK0 | NS SR MC AK1 | NS SR AK2（第 2 轮没有列混淆）",
+    "sbox": "9 4 A B D 1 8 5 6 2 0 3 C E F 7（输入左 2 位为行、右 2 位为列，表 D.1(a)）",
+    "mix_columns": "[[1,4],[4,1]]，GF(2^4) 模 x^4+x+1；逆为 [[9,2],[2,9]]",
+    "key_expansion": "w0w1=密钥；w2=w0⊕RCON(1)⊕SubNib(RotNib(w1))，w3=w2⊕w1，w4=w2⊕RCON(2)⊕SubNib(RotNib(w3))，w5=w4⊕w3；RCON(1)=80，RCON(2)=30",
+    "round_keys": "K0=w0w1，K1=w2w3，K2=w4w5"
+  },
+  "purpose": "public educational test vectors; keys intentionally included",
+  "vectors": [
+    {
+      "plaintext": "0110111101101011",
+      "key": "1010011100111011",
+      "ciphertext": "0000011100111000",
+      "plaintext_hex": "6F6B",
+      "key_hex": "A73B",
+      "ciphertext_hex": "0738"
+    },
+    {
+      "plaintext": "0000000000000000",
+      "key": "1010011100111011",
+      "ciphertext": "1001000010100110",
+      "plaintext_hex": "0000",
+      "key_hex": "A73B",
+      "ciphertext_hex": "90A6"
+    },
+    {
+      "plaintext": "1111111111111111",
+      "key": "1010011100111011",
+      "ciphertext": "0011101101000000",
+      "plaintext_hex": "FFFF",
+      "key_hex": "A73B",
+      "ciphertext_hex": "3B40"
+    },
+    {
+      "plaintext": "0000000000000001",
+      "key": "1010011100111011",
+      "ciphertext": "0011000010101101",
+      "plaintext_hex": "0001",
+      "key_hex": "A73B",
+      "ciphertext_hex": "30AD"
+    },
+    {
+      "plaintext": "1000000000000000",
+      "key": "1010011100111011",
+      "ciphertext": "0010000010100101",
+      "plaintext_hex": "8000",
+      "key_hex": "A73B",
+      "ciphertext_hex": "20A5"
+    },
+    {
+      "plaintext": "0001001000110100",
+      "key": "1010011100111011",
+      "ciphertext": "1001101100100100",
+      "plaintext_hex": "1234",
+      "key_hex": "A73B",
+      "ciphertext_hex": "9B24"
+    },
+    {
+      "plaintext": "1010010110100101",
+      "key": "1010011100111011",
+      "ciphertext": "0011011110100101",
+      "plaintext_hex": "A5A5",
+      "key_hex": "A73B",
+      "ciphertext_hex": "37A5"
+    },
+    {
+      "plaintext": "0101101001011010",
+      "key": "1010011100111011",
+      "ciphertext": "0110000100000100",
+      "plaintext_hex": "5A5A",
+      "key_hex": "A73B",
+      "ciphertext_hex": "6104"
+    }
+  ]
+}
