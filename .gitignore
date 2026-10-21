@@ -1,0 +1,29 @@
+# 课程原始材料（教材扫描件等）不提交
+/附录D*.pdf
+/作业要求/
+/private/
+
+# 密钥、环境变量
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Python / 编辑器 / 本地缓存
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+.idea/
+.vscode/
+Thumbs.db
+.DS_Store
+
+# 无头浏览器临时目录
+/.chrome-profile/
