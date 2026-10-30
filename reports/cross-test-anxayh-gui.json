@@ -1,0 +1,615 @@
+{
+  "environment": {
+    "tk": 8.6,
+    "seed": 20261030,
+    "elapsed_seconds": 9
+  },
+  "total": 52,
+  "passed": 52,
+  "level1": {
+    "rows": [
+      {
+        "plaintext": "D728",
+        "key": "4AF5",
+        "ours": "24EC",
+        "gui_encrypt": "24EC",
+        "gui_decrypt_of_ours": "D728",
+        "ok": true
+      },
+      {
+        "plaintext": "6F6B",
+        "key": "A73B",
+        "ours": "0738",
+        "gui_encrypt": "0738",
+        "gui_decrypt_of_ours": "6F6B",
+        "ok": true
+      },
+      {
+        "plaintext": "A749",
+        "key": "2D55",
+        "ours": "C349",
+        "gui_encrypt": "C349",
+        "gui_decrypt_of_ours": "A749",
+        "ok": true
+      },
+      {
+        "plaintext": "0000",
+        "key": "0000",
+        "ours": "071E",
+        "gui_encrypt": "071E",
+        "gui_decrypt_of_ours": "0000",
+        "ok": true
+      },
+      {
+        "plaintext": "FFFF",
+        "key": "FFFF",
+        "ours": "5343",
+        "gui_encrypt": "5343",
+        "gui_decrypt_of_ours": "FFFF",
+        "ok": true
+      },
+      {
+        "plaintext": "8000",
+        "key": "0001",
+        "ours": "BE05",
+        "gui_encrypt": "BE05",
+        "gui_decrypt_of_ours": "8000",
+        "ok": true
+      },
+      {
+        "plaintext": "1234",
+        "key": "A73B",
+        "ours": "9B24",
+        "gui_encrypt": "9B24",
+        "gui_decrypt_of_ours": "1234",
+        "ok": true
+      },
+      {
+        "plaintext": "5A5A",
+        "key": "9C1E",
+        "ours": "E870",
+        "gui_encrypt": "E870",
+        "gui_decrypt_of_ours": "5A5A",
+        "ok": true
+      }
+    ],
+    "invalid": [
+      {
+        "case": "明文含非十六进制字符",
+        "dialogs": [
+          {
+            "title": "输入或解密错误",
+            "message": "明文 must be 1 to 4 hexadecimal digits"
+          }
+        ]
+      },
+      {
+        "case": "密钥为 5 位",
+        "dialogs": [
+          {
+            "title": "输入或解密错误",
+            "message": "密钥 must be 1 to 4 hexadecimal digits"
+          }
+        ]
+      },
+      {
+        "case": "明文为空",
+        "dialogs": [
+          {
+            "title": "输入或解密错误",
+            "message": "明文 must be 1 to 4 hexadecimal digits"
+          }
+        ]
+      }
+    ],
+    "screenshot": "docs/assets/19-peer-gui-basic.png"
+  },
+  "level3": {
+    "rows": [
+      {
+        "text": "Hello, S-AES!",
+        "key": "A73B",
+        "ours": "2B 91 7F 2D 7C BD BB B5 2F 04 65 8A 47 2C",
+        "gui_cipher": "2B 91 7F 2D 7C BD BB B5 2F 04 65 8A 47 2C",
+        "gui_length": "13",
+        "gui_decrypt_own": "Hello, S-AES!   [HEX: 48 65 6C 6C 6F 2C 20 53 2D 41 45 53 21]",
+        "gui_decrypt_ours": "Hello, S-AES!   [HEX: 48 65 6C 6C 6F 2C 20 53 2D 41 45 53 21]",
+        "ok": true
+      },
+      {
+        "text": "S-AES",
+        "key": "4AF5",
+        "ours": "22 79 02 47 66 48",
+        "gui_cipher": "22 79 02 47 66 48",
+        "gui_length": "5",
+        "gui_decrypt_own": "S-AES   [HEX: 53 2D 41 45 53]",
+        "gui_decrypt_ours": "S-AES   [HEX: 53 2D 41 45 53]",
+        "ok": true
+      },
+      {
+        "text": "AB",
+        "key": "4AF5",
+        "ours": "32 4F",
+        "gui_cipher": "32 4F",
+        "gui_length": "2",
+        "gui_decrypt_own": "AB   [HEX: 41 42]",
+        "gui_decrypt_ours": "AB   [HEX: 41 42]",
+        "ok": true
+      },
+      {
+        "text": "A",
+        "key": "D728",
+        "ours": "12 E7",
+        "gui_cipher": "12 E7",
+        "gui_length": "1",
+        "gui_decrypt_own": "A   [HEX: 41]",
+        "gui_decrypt_ours": "A   [HEX: 41]",
+        "ok": true
+      },
+      {
+        "text": "",
+        "key": "4AF5",
+        "ours": "",
+        "gui_cipher": "",
+        "gui_length": "0",
+        "gui_decrypt_own": "   [HEX: ]",
+        "gui_decrypt_ours": "   [HEX: ]",
+        "ok": true
+      },
+      {
+        "text": "The quick brown fox.",
+        "key": "2D55",
+        "ours": "17 AB 05 D6 C0 0E 3C 9B 0B A6 EA 7C CD 4F 02 06 2A 64 24 39",
+        "gui_cipher": "17 AB 05 D6 C0 0E 3C 9B 0B A6 EA 7C CD 4F 02 06 2A 64 24 39",
+        "gui_length": "20",
+        "gui_decrypt_own": "The quick brown fox.   [HEX: 54 68 65 20 71 75 69 63 6B 20 62 72 6F 77 6E 20 66 6F 78 2E]",
+        "gui_decrypt_ours": "The quick brown fox.   [HEX: 54 68 65 20 71 75 69 63 6B 20 62 72 6F 77 6E 20 66 6F 78 2E]",
+        "ok": true
+      }
+    ],
+    "non_ascii_dialogs": [
+      {
+        "title": "输入或解密错误",
+        "message": "'ascii' codec can't encode characters in position 0-1: ordinal not in range(128)"
+      }
+    ],
+    "screenshot": "docs/assets/20-peer-gui-ascii.png"
+  },
+  "level4": {
+    "rows": [
+      {
+        "operation": "双重加密",
+        "input": "7083",
+        "keys": [
+          "AAE2",
+          "D2DB",
+          "1323"
+        ],
+        "ours": "42E4",
+        "gui": "42E4",
+        "ok": true
+      },
+      {
+        "operation": "双重加密",
+        "input": "861E",
+        "keys": [
+          "8A43",
+          "3F33",
+          "ADB8"
+        ],
+        "ours": "7378",
+        "gui": "7378",
+        "ok": true
+      },
+      {
+        "operation": "双重加密",
+        "input": "93FA",
+        "keys": [
+          "D337",
+          "489E",
+          "4BD2"
+        ],
+        "ours": "5D3B",
+        "gui": "5D3B",
+        "ok": true
+      },
+      {
+        "operation": "双重加密",
+        "input": "521F",
+        "keys": [
+          "2A7C",
+          "0CD2",
+          "9180"
+        ],
+        "ours": "60BE",
+        "gui": "60BE",
+        "ok": true
+      },
+      {
+        "operation": "双重加密",
+        "input": "484C",
+        "keys": [
+          "B364",
+          "E1E6",
+          "D534"
+        ],
+        "ours": "D759",
+        "gui": "D759",
+        "ok": true
+      },
+      {
+        "operation": "双重解密",
+        "input": "A5EA",
+        "keys": [
+          "2EC1",
+          "1C22",
+          "F7E5"
+        ],
+        "ours": "E829",
+        "gui": "E829",
+        "ok": true
+      },
+      {
+        "operation": "双重解密",
+        "input": "ACB4",
+        "keys": [
+          "C93F",
+          "FD43",
+          "5E61"
+        ],
+        "ours": "78DF",
+        "gui": "78DF",
+        "ok": true
+      },
+      {
+        "operation": "双重解密",
+        "input": "7B32",
+        "keys": [
+          "9B79",
+          "C0BA",
+          "4EEF"
+        ],
+        "ours": "70E7",
+        "gui": "70E7",
+        "ok": true
+      },
+      {
+        "operation": "双重解密",
+        "input": "5FF1",
+        "keys": [
+          "0284",
+          "EA33",
+          "25EF"
+        ],
+        "ours": "27B5",
+        "gui": "27B5",
+        "ok": true
+      },
+      {
+        "operation": "双重解密",
+        "input": "5C7D",
+        "keys": [
+          "8779",
+          "F4D4",
+          "6762"
+        ],
+        "ours": "987C",
+        "gui": "987C",
+        "ok": true
+      },
+      {
+        "operation": "两密钥 EDE 三重加密",
+        "input": "4245",
+        "keys": [
+          "2B8E",
+          "338E",
+          "F61C"
+        ],
+        "ours": "BB56",
+        "gui": "BB56",
+        "ok": true
+      },
+      {
+        "operation": "两密钥 EDE 三重加密",
+        "input": "7C02",
+        "keys": [
+          "2545",
+          "FE44",
+          "C9DD"
+        ],
+        "ours": "4809",
+        "gui": "4809",
+        "ok": true
+      },
+      {
+        "operation": "两密钥 EDE 三重加密",
+        "input": "FD81",
+        "keys": [
+          "1856",
+          "4E0F",
+          "7846"
+        ],
+        "ours": "3798",
+        "gui": "3798",
+        "ok": true
+      },
+      {
+        "operation": "两密钥 EDE 三重加密",
+        "input": "2FA2",
+        "keys": [
+          "2BD4",
+          "D46F",
+          "BEE2"
+        ],
+        "ours": "C542",
+        "gui": "C542",
+        "ok": true
+      },
+      {
+        "operation": "两密钥 EDE 三重加密",
+        "input": "24DC",
+        "keys": [
+          "354A",
+          "6B01",
+          "DE36"
+        ],
+        "ours": "DE2F",
+        "gui": "DE2F",
+        "ok": true
+      },
+      {
+        "operation": "两密钥 EDE 三重解密",
+        "input": "89C3",
+        "keys": [
+          "71DA",
+          "A0FB",
+          "3181"
+        ],
+        "ours": "9607",
+        "gui": "9607",
+        "ok": true
+      },
+      {
+        "operation": "两密钥 EDE 三重解密",
+        "input": "8BE9",
+        "keys": [
+          "82D4",
+          "8AC6",
+          "670C"
+        ],
+        "ours": "ACEB",
+        "gui": "ACEB",
+        "ok": true
+      },
+      {
+        "operation": "两密钥 EDE 三重解密",
+        "input": "16F0",
+        "keys": [
+          "87FF",
+          "B4B6",
+          "496B"
+        ],
+        "ours": "B06A",
+        "gui": "B06A",
+        "ok": true
+      },
+      {
+        "operation": "两密钥 EDE 三重解密",
+        "input": "29C0",
+        "keys": [
+          "1451",
+          "BD70",
+          "F11F"
+        ],
+        "ours": "3507",
+        "gui": "3507",
+        "ok": true
+      },
+      {
+        "operation": "两密钥 EDE 三重解密",
+        "input": "EA62",
+        "keys": [
+          "4D1B",
+          "A815",
+          "0703"
+        ],
+        "ours": "DBDC",
+        "gui": "DBDC",
+        "ok": true
+      },
+      {
+        "operation": "三密钥 EEE 三重加密",
+        "input": "156D",
+        "keys": [
+          "C071",
+          "9539",
+          "B9AF"
+        ],
+        "ours": "D26A",
+        "gui": "D26A",
+        "ok": true
+      },
+      {
+        "operation": "三密钥 EEE 三重加密",
+        "input": "D95F",
+        "keys": [
+          "2D02",
+          "B8D4",
+          "A385"
+        ],
+        "ours": "DE14",
+        "gui": "DE14",
+        "ok": true
+      },
+      {
+        "operation": "三密钥 EEE 三重加密",
+        "input": "43ED",
+        "keys": [
+          "6291",
+          "C1D2",
+          "5FE8"
+        ],
+        "ours": "B9E5",
+        "gui": "B9E5",
+        "ok": true
+      },
+      {
+        "operation": "三密钥 EEE 三重加密",
+        "input": "225B",
+        "keys": [
+          "6577",
+          "2AD9",
+          "9430"
+        ],
+        "ours": "E460",
+        "gui": "E460",
+        "ok": true
+      },
+      {
+        "operation": "三密钥 EEE 三重加密",
+        "input": "9892",
+        "keys": [
+          "D30D",
+          "58B9",
+          "950B"
+        ],
+        "ours": "1466",
+        "gui": "1466",
+        "ok": true
+      },
+      {
+        "operation": "三密钥 EEE 三重解密",
+        "input": "BA83",
+        "keys": [
+          "7AD1",
+          "FD00",
+          "90AD"
+        ],
+        "ours": "348D",
+        "gui": "348D",
+        "ok": true
+      },
+      {
+        "operation": "三密钥 EEE 三重解密",
+        "input": "9420",
+        "keys": [
+          "87F9",
+          "3C2E",
+          "5DEB"
+        ],
+        "ours": "CBB3",
+        "gui": "CBB3",
+        "ok": true
+      },
+      {
+        "operation": "三密钥 EEE 三重解密",
+        "input": "7E58",
+        "keys": [
+          "ADBB",
+          "13CF",
+          "A2AB"
+        ],
+        "ours": "0FED",
+        "gui": "0FED",
+        "ok": true
+      },
+      {
+        "operation": "三密钥 EEE 三重解密",
+        "input": "9106",
+        "keys": [
+          "403E",
+          "E669",
+          "41DC"
+        ],
+        "ours": "3884",
+        "gui": "3884",
+        "ok": true
+      },
+      {
+        "operation": "三密钥 EEE 三重解密",
+        "input": "A4A5",
+        "keys": [
+          "4CAA",
+          "81A4",
+          "5902"
+        ],
+        "ours": "8663",
+        "gui": "8663",
+        "ok": true
+      }
+    ],
+    "mitm": [
+      {
+        "true_key": "2D55BACE",
+        "pairs": [
+          "1234",
+          "D728",
+          "CAFE"
+        ],
+        "result": "找到 1 组候选密钥：K1=2D55 / K2=BACE",
+        "seconds": 2.7,
+        "ok": true
+      },
+      {
+        "true_key": "A73B1C27",
+        "pairs": [
+          "6F6B",
+          "0000",
+          "FFFF"
+        ],
+        "result": "找到 1 组候选密钥：K1=A73B / K2=1C27",
+        "seconds": 2.7,
+        "ok": true
+      }
+    ],
+    "screenshot": "docs/assets/21-peer-gui-multiple.png"
+  },
+  "level5": {
+    "encrypt": {
+      "gui_cipher": "AB 33 B4 1E 71 59 57 EC F2 5B 69 5F E3 90 9C ED 48 19 C1 5F EB A8 C6 29 0A FC D8 14 66 C4 69 39",
+      "ours": "AB 33 B4 1E 71 59 57 EC F2 5B 69 5F E3 90 9C ED 48 19 C1 5F EB A8 C6 29 0A FC D8 14 66 C4 69 39",
+      "gui_summary": "16 个双字节分组；IV=A1B2",
+      "ok": true
+    },
+    "decrypt": {
+      "gui_result": "Cross-group CBC check!   [HEX: 43 72 6F 73 73 2D 67 72 6F 75 70 20 43 42 43 20 63 68 65 63 6B 21]",
+      "ok": true
+    },
+    "random_iv": {
+      "gui_iv": "5032",
+      "ours_decrypts": true
+    },
+    "tamper": [
+      {
+        "block_index": 3,
+        "mask": "0001",
+        "ours": "43 42 43 20 6D 6F 44 67 3A 21 62 6C 6F 63 6B 20 63 68 61 69 6E 69 6E 67 20 74 65 73 74 2E",
+        "gui_result": "篡改后：CBC moDg:!block chaining test.   [HEX: 43 42 43 20 6D 6F 44 67 3A 21 62 6C 6F 63 6B 20 63 68 61 69 6E 69 6E 67 20 74 65 73 74 2E]",
+        "dialogs": [],
+        "ok": true
+      },
+      {
+        "block_index": 0,
+        "mask": "8000",
+        "ours": "23 46 C3 20 6D 6F 64 65 3A 20 62 6C 6F 63 6B 20 63 68 61 69 6E 69 6E 67 20 74 65 73 74 2E",
+        "gui_result": "篡改后：#F\\xc3 mode: block chaining test.   [HEX: 23 46 C3 20 6D 6F 64 65 3A 20 62 6C 6F 63 6B 20 63 68 61 69 6E 69 6E 67 20 74 65 73 74 2E]",
+        "dialogs": [],
+        "ok": true
+      },
+      {
+        "block_index": 15,
+        "mask": "0001",
+        "ours": null,
+        "gui_result": null,
+        "dialogs": [
+          {
+            "title": "输入或解密错误",
+            "message": "invalid padding; ciphertext, key, or IV may be incorrect"
+          }
+        ],
+        "ok": true
+      }
+    ],
+    "screenshot": "docs/assets/22-peer-gui-cbc.png"
+  }
+}

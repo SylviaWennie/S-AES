@@ -1,0 +1,558 @@
+{
+  "meta": {
+    "date": "2026-10-30",
+    "python": "Python 3.12.7",
+    "system": "Windows 11",
+    "seed": 20261030,
+    "peer_repo": "https://github.com/Anxayh/S-AES_Assignment",
+    "peer_commit": "08765a0",
+    "peer_commit_date": "2026-10-28",
+    "peer_files": {
+      "saes_core.py": "24e7796dd25d87553e048a59ed80133f3e56a0341a5b1b2a0f8e14d788848b37",
+      "app.py": "10d6a88aa32eb72c61f998b846926aa93fb7fd52e6fe97101432ed284b20ccbd",
+      "test_saes.py": "dfa88e8e912fa4e0570242b40ff909ade20f57c5a813b45fcf9b912736c2ce91"
+    },
+    "our_base_commit": "5493008",
+    "elapsed_seconds": 95
+  },
+  "level1": {
+    "vectors": [
+      {
+        "source": "对方文档 `外部交叉测试向量.md`",
+        "plaintext": "D728",
+        "key": "4AF5",
+        "expected": "24EC",
+        "ours": "24EC",
+        "peer": "24EC",
+        "peer_decrypts_ours": "D728",
+        "ours_decrypts_peer": "D728",
+        "ok": true
+      },
+      {
+        "source": "我方 `examples/vectors.txt`",
+        "plaintext": "6F6B",
+        "key": "A73B",
+        "expected": "0738",
+        "ours": "0738",
+        "peer": "0738",
+        "peer_decrypts_ours": "6F6B",
+        "ours_decrypts_peer": "6F6B",
+        "ok": true
+      },
+      {
+        "source": "教材 D.2 示例所用的明文和密钥（密文由我方实现算出）",
+        "plaintext": "A749",
+        "key": "2D55",
+        "expected": "C349",
+        "ours": "C349",
+        "peer": "C349",
+        "peer_decrypts_ours": "A749",
+        "ours_decrypts_peer": "A749",
+        "ok": true
+      }
+    ],
+    "edge": {
+      "total": 5,
+      "same_ciphertext": 5,
+      "ours_to_peer": 5,
+      "peer_to_ours": 5,
+      "mismatches": []
+    }
+  },
+  "level2": {
+    "key_expansion": {
+      "total": 65536,
+      "mismatches": 0,
+      "examples": []
+    },
+    "plaintext_space": {
+      "4AF5": {
+        "total": 65536,
+        "same_ciphertext": 65536,
+        "ours_to_peer": 65536,
+        "peer_to_ours": 65536,
+        "mismatches": []
+      },
+      "2D55": {
+        "total": 65536,
+        "same_ciphertext": 65536,
+        "ours_to_peer": 65536,
+        "peer_to_ours": 65536,
+        "mismatches": []
+      },
+      "A73B": {
+        "total": 65536,
+        "same_ciphertext": 65536,
+        "ours_to_peer": 65536,
+        "peer_to_ours": 65536,
+        "mismatches": []
+      },
+      "0000": {
+        "total": 65536,
+        "same_ciphertext": 65536,
+        "ours_to_peer": 65536,
+        "peer_to_ours": 65536,
+        "mismatches": []
+      },
+      "FFFF": {
+        "total": 65536,
+        "same_ciphertext": 65536,
+        "ours_to_peer": 65536,
+        "peer_to_ours": 65536,
+        "mismatches": []
+      },
+      "8000": {
+        "total": 65536,
+        "same_ciphertext": 65536,
+        "ours_to_peer": 65536,
+        "peer_to_ours": 65536,
+        "mismatches": []
+      },
+      "0001": {
+        "total": 65536,
+        "same_ciphertext": 65536,
+        "ours_to_peer": 65536,
+        "peer_to_ours": 65536,
+        "mismatches": []
+      },
+      "9C1E": {
+        "total": 65536,
+        "same_ciphertext": 65536,
+        "ours_to_peer": 65536,
+        "peer_to_ours": 65536,
+        "mismatches": []
+      }
+    },
+    "key_space": {
+      "D728": {
+        "total": 65536,
+        "same_ciphertext": 65536,
+        "ours_to_peer": 65536,
+        "peer_to_ours": 65536,
+        "mismatches": []
+      },
+      "6F6B": {
+        "total": 65536,
+        "same_ciphertext": 65536,
+        "ours_to_peer": 65536,
+        "peer_to_ours": 65536,
+        "mismatches": []
+      },
+      "A749": {
+        "total": 65536,
+        "same_ciphertext": 65536,
+        "ours_to_peer": 65536,
+        "peer_to_ours": 65536,
+        "mismatches": []
+      },
+      "0000": {
+        "total": 65536,
+        "same_ciphertext": 65536,
+        "ours_to_peer": 65536,
+        "peer_to_ours": 65536,
+        "mismatches": []
+      },
+      "FFFF": {
+        "total": 65536,
+        "same_ciphertext": 65536,
+        "ours_to_peer": 65536,
+        "peer_to_ours": 65536,
+        "mismatches": []
+      },
+      "8000": {
+        "total": 65536,
+        "same_ciphertext": 65536,
+        "ours_to_peer": 65536,
+        "peer_to_ours": 65536,
+        "mismatches": []
+      },
+      "0001": {
+        "total": 65536,
+        "same_ciphertext": 65536,
+        "ours_to_peer": 65536,
+        "peer_to_ours": 65536,
+        "mismatches": []
+      },
+      "5A5A": {
+        "total": 65536,
+        "same_ciphertext": 65536,
+        "ours_to_peer": 65536,
+        "peer_to_ours": 65536,
+        "mismatches": []
+      }
+    },
+    "random": {
+      "total": 65536,
+      "same_ciphertext": 65536,
+      "ours_to_peer": 65536,
+      "peer_to_ours": 65536,
+      "mismatches": []
+    },
+    "document_claims": [
+      {
+        "claim": "P=D728, K=4AF5 → C=24EC",
+        "ours": "24EC",
+        "expected": "24EC"
+      },
+      {
+        "claim": "C=24EC, K=4AF5 → P=D728",
+        "ours": "D728",
+        "expected": "D728"
+      },
+      {
+        "claim": "密钥扩展 2D55 → K1=BCE9",
+        "ours": "BCE9",
+        "expected": "BCE9"
+      },
+      {
+        "claim": "密钥扩展 2D55 → K2=A34A",
+        "ours": "A34A",
+        "expected": "A34A"
+      }
+    ],
+    "vector_file": {
+      "text": "# 由对方 https://github.com/Anxayh/S-AES_Assignment 的 saes_core.encrypt_block 生成的 256 条向量（每行：明文 密钥 密文，十六进制）\n# 用 python -m saes verify examples/peer-anxayh-vectors.txt 核验；第一条是对方文档中的固定向量\nD728 4AF5 24EC\n42C4 413C 1B78\n1FEE CB3D 8C67\n60FE 31AE 592D\n72A3 9323 CEF7\n8A4C 02C2 358D\nE0F6 4735 913F\nDF61 50E8 CD41\n7DE2 E5C1 7FEE\n656C 1120 94D3\n5215 5D7F 7E11\n1149 DA05 13A8\n749D 8C0A D864\nFB75 CD39 4F81\nF27A D7E8 C47A\n513E E6DC 1B46\n6E08 AD03 D96B\n6569 6085 C0C6\nB3D7 3E6D EF88\n5169 53D6 E5C6\nF81E 055F C958\nD7CA 50D4 4C1A\n9051 32AB F48B\n4CFA 853A 1E8B\n73CC 746E C1BB\nC091 74E2 838D\nFEAD A45F 6D35\n61F6 A7B0 136B\n7002 148B BF89\n2F97 0126 FE98\n1192 5F64 B483\nA72A 19BA 5537\nF4C9 6B67 C624\nF9D0 9E46 EB06\nC729 59B8 2219\n8D4F 1F9A 8D6E\nD9AE F183 167B\n0029 0671 AF27\n6AEB 043F D9AE\n7F28 C154 0021\n930F D0A1 739D\nDAA7 57B0 B1D7\nB650 5458 1BA7\n3122 0A03 A6B6\n6EF2 B70B A156\nF945 CFBC 12BA\nD7A8 3D5D DA79\n567D 14EA 55A8\nF24C E6C7 DE70\n69A4 2D79 9B9B\nD54D B6A2 85CC\n5B1C 6D37 0596\nF632 2A59 1356\n8568 B827 EFDD\n0690 E843 0A04\n52C3 63BF 862D\n2B20 D6A0 55F1\n15AA C421 ED32\n1CE9 F65D F31A\nC223 6CC5 F0F8\n1E56 0164 FBE6\n9970 84B0 8164\nC916 91A7 729C\nEE1F 08FC 86D1\nF4E0 4BA8 8385\n53B9 B5D1 F63C\n4FE4 16C4 D607\nABD2 1B69 5A9B\n53A8 BD7B 996E\n45DE 4D87 0040\n4ECD DDFB B1E9\nAA08 BFA5 2A59\n0E35 986B 08D3\n8907 80A7 C693\n64CF 4155 AA8C\n5F6E 3FFC DF77\n2AEF A364 A17D\n76A9 34BB 4D6C\n74AC 27D3 5D5F\n0BBD 7B37 B3B0\nC32F 66A5 057C\n0516 B77D 39F3\nD146 73EA 4427\n263B C93B 638C\n78FC 008C C916\n57F7 2A39 0968\n7858 1FF6 441D\nEAC1 C861 1B7C\n1D5D B2F4 1975\nD674 5E71 9B8A\nB066 2285 755B\nE5FE E47C 95C0\n5C34 DB10 BCCC\nCE18 B0A5 0E21\nB23D 8BC9 834F\n02D9 6D71 99C9\n3FDE D921 C914\n04A7 A8FC C864\nA01B 551E 26A2\nEFE6 D027 B7B0\n276C FD3E B969\nAEAA 2CCE 3874\n4899 6C43 BF20\n0463 717C 49FC\n10DF C1C8 38C6\nAF97 40C4 9125\nC9B2 D4DD 450A\nD718 ACE4 E486\nD7C3 7603 3CC6\n3A31 D376 6DA6\n8E1C 6DF6 B7CF\n4AB9 946E 2385\n5099 C622 B0CB\n0F93 2225 3DA8\n98FC 21EE 991B\n6E77 EB73 01F5\nEA88 31B8 A1C8\nFD58 DBD3 3FDE\n92B6 3E4F E2BD\n8C2E 2F34 8F94\nBACA 2BA1 40E5\n2152 D644 E574\nCB6F 9471 16FB\n9E24 2431 0FD5\n06EB 6B86 D9B8\nD323 4429 4BED\n90C8 BBCA BC16\n076B DEED F121\n56C8 72DE 5E20\n9156 B372 D09C\nA13A D905 9FF1\nC951 96E2 21CB\n243D 6772 6904\nC9DB 39B8 DCEF\n0217 5134 F24E\nFF4D B2B0 DCFB\nAF70 C867 81D9\n4711 6854 0254\nEC87 EB36 89A0\nF7E2 3904 4272\nD470 5CEC F026\n900B 7466 5C31\n183E AFB9 FC9B\nAEE7 0F25 6251\n7F8B B0A7 73E9\n80D1 4290 FF48\nE813 4D58 C638\n9F1F 36EF 80BC\n0EA1 C188 EFB1\n72F0 98DC B2EE\nEADE 35BA 911B\n728A F7E5 CEEE\n9011 DAC4 5C51\nC5D8 342B B1FB\nDA83 E6DA EB30\n7488 211C F945\nFBAD BF3A DE4A\n43AF DF48 809A\n2E1D 6908 9967\n6DD6 C263 D262\n16D2 8B04 4D40\n1576 F088 8D43\nB2BA 44C2 59D6\n84EC 3BE1 999D\n9A3E 4019 68D2\nD59D C3C9 6F9D\n3975 2158 8B64\nBA4C 24A4 223A\n54F1 47BD 8D5C\n570D 37EA F318\nF251 1176 A968\n4026 ECA8 C763\n5DE0 D51F DFAA\n62A3 E443 C8E2\n44F3 D16C 6263\n247B 49B8 5CB9\nCCDE 334A BA01\n1A97 5607 8524\nA237 4B2C 6705\n410C 52EC 319E\n621D 1143 9DE6\n7DA8 EB9C A74B\nD75A 492C 9C9D\n39AE 6CAE 2BB9\nA54D 9A1A 1207\n2033 7601 A046\n1766 07AC DD3E\n3676 A144 1A48\nC719 FFF7 FF97\nC4FC C6C9 D13B\nF035 22BA 959D\nCB08 E2A4 DB39\n6263 B6C2 1A48\n7102 AAB7 51CA\n7241 4D9C 0F7D\n4498 AE73 C068\n105B DD17 E99A\n080A 0EC9 8202\n9180 9F38 9E3C\n4E44 F236 18BD\n50A1 1E5E C0C7\n79B8 A80E 8AAD\n7A5E D695 5C3E\n93FC F61D 71E2\n82BD D197 A550\nD2F5 9AC3 CC6C\nD353 5502 135C\n0E2B E47C DD6C\nC311 3C37 3BF0\nC73B D0AD 4DAA\nE07A A820 A909\n492D 504C ED2D\nC825 8A74 6E64\n61E3 C114 168B\n4C44 9D44 BC0F\nEFA7 0CF7 BA2E\n90F9 15C3 C2B6\n18CC 5526 252C\nFE02 31C4 BEFD\nC138 0011 8DE4\n9A67 6D50 DD52\n4414 2AE7 8B05\n8DBA 27FA F2A9\n99E3 E1AB 58B5\n18E3 A627 69B8\n0E57 AA6F 7999\n6BF8 4A6B 911C\n0729 6338 946B\n396F 45A3 9CC2\nCAA9 CE5C 15EE\n5C7C 8520 7ECC\n8D1D C539 0882\n6EA9 E549 A280\n656B 9663 FFCA\n98CD 1352 9995\nEA43 38F7 F464\nF195 316D 1806\n26B0 E826 D59D\nEB1D 1B3D 0D28\n6B3C CE23 0BA6\nC0AA 361E 1576\n58AB 97DF E228\n264F CE3D C537\n50F9 155A AFF9\nF8A4 D045 F1C9\n9420 A952 5D7A\nE20F EA1D 7417\n831E 7E4F B725\n1EE2 0449 AF14\n502D 2AA7 23C8\nB1E2 9B7D 7BFE\nB9DD C99E 4F51\nB59E CD4D 67AE\nBE8C 8714 51FF\n7D0C 5444 9BDD\n24C6 D230 31D8\n",
+      "count": 256,
+      "verified": {
+        "A": {
+          "passed": true,
+          "total": 256,
+          "encrypt": 256,
+          "decrypt": 256
+        },
+        "B": {
+          "passed": true,
+          "total": 256,
+          "encrypt": 256,
+          "decrypt": 256
+        },
+        "C": {
+          "passed": true,
+          "total": 256,
+          "encrypt": 256,
+          "decrypt": 256
+        }
+      }
+    }
+  },
+  "level3": {
+    "total": 310,
+    "same_ciphertext": 310,
+    "ours_to_peer": 310,
+    "peer_to_ours": 310,
+    "mismatches": [],
+    "document_claim": {
+      "claim": "S-AES / 4AF5 的密文字节",
+      "peer_document": "22 79 02 47 66 48",
+      "ours": "22 79 02 47 66 48",
+      "ok": true
+    },
+    "trailing_nul": {
+      "text_hex": "41 00",
+      "ours_zero_padding_recovers": "41",
+      "peer_recovers": "41 00"
+    },
+    "non_ascii": {
+      "text": "信息安全",
+      "peer": [
+        "error",
+        "UnicodeEncodeError"
+      ],
+      "ours": "6F 21 E1 A8 C0 D9 C4 60 3E 6B 44 67"
+    }
+  },
+  "level4": {
+    "double": {
+      "total": 2000,
+      "same": 2000,
+      "ours_to_peer": 2000,
+      "peer_to_ours": 2000
+    },
+    "ede2": {
+      "total": 2000,
+      "same": 2000,
+      "ours_to_peer": 2000,
+      "peer_to_ours": 2000
+    },
+    "triple48": {
+      "total": 2000,
+      "peer_eee_equals_ours_ede3": 0,
+      "peer_eee_equals_composed_ours": 2000,
+      "ours_ede3_equals_composed_peer": 2000,
+      "peer_eee_round_trip_ours": 2000
+    },
+    "document_double": [
+      {
+        "plaintext": "1234",
+        "expected": "88E5",
+        "ours": "88E5",
+        "ok": true
+      },
+      {
+        "plaintext": "D728",
+        "expected": "738D",
+        "ours": "738D",
+        "ok": true
+      },
+      {
+        "plaintext": "CAFE",
+        "expected": "5D49",
+        "ours": "5D49",
+        "ok": true
+      }
+    ],
+    "document_triple": {
+      "ede2": {
+        "peer_document": "B90B",
+        "ours": "B90B"
+      },
+      "eee": {
+        "peer_document": "1D2F",
+        "ours_ede3": "8E35",
+        "ours_composed_eee": "1D2F"
+      }
+    },
+    "mitm": [
+      {
+        "pairs_from": "peer",
+        "pair_count": 1,
+        "true_key": "5BA142DD",
+        "peer_candidates": 65878,
+        "our_candidates": 65878,
+        "same_set": true,
+        "contains_true_key": true,
+        "peer_ms": 1722,
+        "our_ms": 1328
+      },
+      {
+        "pairs_from": "peer",
+        "pair_count": 2,
+        "true_key": "422A2BA0",
+        "peer_candidates": 1,
+        "our_candidates": 1,
+        "same_set": true,
+        "contains_true_key": true,
+        "peer_ms": 2912,
+        "our_ms": 2845
+      },
+      {
+        "pairs_from": "peer",
+        "pair_count": 3,
+        "true_key": "57FBF628",
+        "peer_candidates": 1,
+        "our_candidates": 1,
+        "same_set": true,
+        "contains_true_key": true,
+        "peer_ms": 3111,
+        "our_ms": 2963
+      },
+      {
+        "pairs_from": "ours",
+        "pair_count": 1,
+        "true_key": "990AE30E",
+        "peer_candidates": 66014,
+        "our_candidates": 66014,
+        "same_set": true,
+        "contains_true_key": true,
+        "peer_ms": 1789,
+        "our_ms": 1491
+      },
+      {
+        "pairs_from": "ours",
+        "pair_count": 2,
+        "true_key": "24B656B2",
+        "peer_candidates": 2,
+        "our_candidates": 2,
+        "same_set": true,
+        "contains_true_key": true,
+        "peer_ms": 3110,
+        "our_ms": 3095
+      },
+      {
+        "pairs_from": "ours",
+        "pair_count": 3,
+        "true_key": "3D340A2C",
+        "peer_candidates": 1,
+        "our_candidates": 1,
+        "same_set": true,
+        "contains_true_key": true,
+        "peer_ms": 3142,
+        "our_ms": 2970
+      }
+    ],
+    "document_mitm": {
+      "ours": [
+        "2D55BACE"
+      ],
+      "peer": [
+        "2D55BACE"
+      ]
+    }
+  },
+  "level5": {
+    "total": 112,
+    "same_ciphertext": 112,
+    "ours_to_peer": 112,
+    "peer_to_ours": 112,
+    "mismatches": [],
+    "random_iv": {
+      "total": 200,
+      "ok": 200
+    },
+    "document": {
+      "cipher": {
+        "peer_document": "AB 33 B4 1E 71 59 57 EC F2 5B 69 5F E3 90 9C ED 48 19 C1 5F EB A8 C6 29 0A FC D8 14 66 C4 69 39",
+        "ours": "AB 33 B4 1E 71 59 57 EC F2 5B 69 5F E3 90 9C ED 48 19 C1 5F EB A8 C6 29 0A FC D8 14 66 C4 69 39",
+        "ok": true
+      },
+      "tampered_plaintext": {
+        "peer_document": "53 40 43 21 6D 6F 64 65 3A 20 62 6C 6F 63 6B 20 63 68 61 69 6E 69 6E 67 20 74 65 73 74 2E",
+        "ours": "53 40 43 21 6D 6F 64 65 3A 20 62 6C 6F 63 6B 20 63 68 61 69 6E 69 6E 67 20 74 65 73 74 2E",
+        "ok": true
+      }
+    },
+    "zero_vs_pkcs7": {
+      "message": "41 42",
+      "ours_zero": "33 6E",
+      "ours_pkcs7": "33 6E 1C 69",
+      "peer": "33 6E 1C 69"
+    },
+    "tamper_interior": {
+      "total": 596,
+      "same_plaintext": 596,
+      "affected_exact": 596,
+      "next_block_xor_mask": 596,
+      "tamper_function_same": 596
+    },
+    "tamper_tail": {
+      "total": 120,
+      "same_outcome": 120,
+      "both_error": 120,
+      "both_plaintext": 0
+    }
+  },
+  "robustness": {
+    "probes": [
+      {
+        "probe": "加密：明文 0x10000（超出 16 位）",
+        "peer": "error ValueError",
+        "ours": "error ValueError"
+      },
+      {
+        "probe": "加密：密钥 -1",
+        "peer": "error ValueError",
+        "ours": "error ValueError"
+      },
+      {
+        "probe": "加密：密钥 True（布尔）",
+        "peer": "error ValueError",
+        "ours": "error ValueError"
+      },
+      {
+        "probe": "加密：明文为字符串 \"D728\"",
+        "peer": "error ValueError",
+        "ours": "error ValueError"
+      },
+      {
+        "probe": "ASCII 解密：3 字节（不足整分组）",
+        "peer": "error ValueError",
+        "ours": "error ValueError"
+      },
+      {
+        "probe": "ASCII 加密：非 ASCII 文本「信息」",
+        "peer": "error UnicodeEncodeError",
+        "ours": "ok 6f21e1a8c0d9"
+      },
+      {
+        "probe": "CBC 解密：空密文",
+        "peer": "error ValueError",
+        "ours": "error ValueError"
+      },
+      {
+        "probe": "CBC：IV 为 0x10000",
+        "peer": "error ValueError",
+        "ours": "error ValueError"
+      },
+      {
+        "probe": "CBC 解密：用错误密钥（合法密文）",
+        "peer": "error ValueError",
+        "ours": "error ValueError"
+      },
+      {
+        "probe": "中间相遇：0 对明密文",
+        "peer": "error ValueError",
+        "ours": "error ValueError"
+      }
+    ],
+    "parsing": [
+      {
+        "input": "4AF5",
+        "peer": "ok 4AF5",
+        "ours": "ok 4AF5"
+      },
+      {
+        "input": "0x4AF5",
+        "peer": "ok 4AF5",
+        "ours": "ok 4AF5"
+      },
+      {
+        "input": "  4af5  ",
+        "peer": "ok 4AF5",
+        "ours": "ok 4AF5"
+      },
+      {
+        "input": "4AF",
+        "peer": "ok 04AF",
+        "ours": "error ValueError"
+      },
+      {
+        "input": "A",
+        "peer": "ok 000A",
+        "ours": "error ValueError"
+      },
+      {
+        "input": "4AF55",
+        "peer": "error ValueError",
+        "ours": "error ValueError"
+      },
+      {
+        "input": "",
+        "peer": "error ValueError",
+        "ours": "error ValueError"
+      },
+      {
+        "input": "GGGG",
+        "peer": "error ValueError",
+        "ours": "error ValueError"
+      },
+      {
+        "input": "4A F5",
+        "peer": "error ValueError",
+        "ours": "ok 4AF5"
+      },
+      {
+        "input": "0100101011110101",
+        "peer": "error ValueError",
+        "ours": "ok 4AF5"
+      }
+    ]
+  },
+  "negative_control": {
+    "total": 4096,
+    "same_ciphertext": 830,
+    "ours_to_peer": 2450,
+    "peer_to_ours": 830
+  },
+  "peer_own_tests": {
+    "exit_code": 0,
+    "seconds": 3.4,
+    "stderr_tail": "",
+    "different_lines": [
+      "-- 执行日期：2026-10-28",
+      "-- Python：3.13.5",
+      "+- 执行日期：2026-10-30",
+      "+- Python：3.12.7"
+    ]
+  },
+  "problems": []
+}

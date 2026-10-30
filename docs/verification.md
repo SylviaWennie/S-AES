@@ -58,7 +58,7 @@ OK
 
 ## 尚未执行
 
-- **真人跨组 / 组内互测**：没有其他同学或其他小组的程序参与。[测试结果](test-report.md#待补充真人组内--组间测试记录)末尾留有记录表，待真实测试后填写。
+- **真人跨组互测**：2026-10-30 已与另一小组 [Anxayh/S-AES_Assignment](https://github.com/Anxayh/S-AES_Assignment) 完成，方法与数据见[组间测试报告](cross-test-report.md)；[测试结果](test-report.md#真人组间测试记录)末尾有记录表。组内互测仍是个人模拟，没有其他同学参与。
 - 其他语言 / 平台上的互操作：网页与服务只在 Windows + Python 3.12 + Chrome 上验证；没有在 macOS / Linux、Firefox / Safari 上运行。
 - 持续集成（GitHub Actions）：没有配置。
 - 石墨文档表格里的链接提交：需要登录后由本人提交（见作业文档 5.1）。
